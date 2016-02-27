@@ -1,0 +1,23 @@
+{{debug}}
+<div class="demo-card-wide mdl-shadow--2dp" >
+  <div class="mdl-card__title article-header" style="background: url('{{image}}') center/cover;">
+    <h2 class="mdl-card__title-text">{{name}}</h2>
+  </div>
+  <div class="mdl-card__supporting-text article-description">
+    <span class="description">{{description}}</span>
+    <span class="current-price">$ {{currentPrice}}</span>
+  </div>
+  <div class="mdl-card__actions mdl-card--border article-footer">
+    <i class="material-icons star-icon">star_rate</i>
+    <span class="star-nb">{{stars}}</span>
+    <div class="select-quantity">
+    	<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab remove-article">
+    		<i class="material-icons">remove</i>
+    	</button>
+    	<input type="number" value="{{quantity}}" class="article-quantity"></input>
+    	<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab add-article">
+    		<i class="material-icons">add</i>
+    	</button>
+    </div>
+  </div>
+</div>
