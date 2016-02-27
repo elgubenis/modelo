@@ -4,29 +4,31 @@
   width: 512px;
 }
 .demo-card-wide > .mdl-card__title {
-  color: #fff;
+  color: #000;
   height: 176px;
   background: url('../assets/demos/welcome_card.jpg') center / cover;
 }
 .demo-card-wide > .mdl-card__menu {
-  color: #fff;
+  color: #000;
+}
+.less-padding {
+
 }
 </style>
 
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-  <div class="mdl-card__title">
-    <h2 class="mdl-card__title-text">Welcome</h2>
+  <div class="mdl-card__title" id="map"></div>
+  <div class="mdl-card__supporting-text">
+    <form action="#">
+      <div class="less-padding mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="sample1">
+        <label class="mdl-textfield__label" for="sample1">Direccion</label>
+      </div>
+    </form>
   </div>
-  <div class="mdl-card__supporting-text" id="map">
-  </div>
-  <div class="mdl-card__actions mdl-card--border">
+{{!--   <div class="mdl-card__actions mdl-card--border">
     <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
       Get Started
     </a>
-  </div>
-  <div class="mdl-card__menu">
-    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-      <i class="material-icons">share</i>
-    </button>
-  </div>
+  </div> --}}
 </div>

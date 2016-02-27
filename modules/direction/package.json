@@ -46,6 +46,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
+    "googleapis": "^2.1.7",
     "material-design-lite": "^1.1.1"
   }
 }
