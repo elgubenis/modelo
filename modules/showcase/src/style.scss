@@ -1,0 +1,30 @@
+.article-header {
+	height: 176px;
+}
+
+.article-description .current-price{
+	float: right;
+}
+
+.article-footer
+  .star-icon {
+  	width:25px;
+  	font-size:40px;
+  	color: #FFC107;
+  }
+  .star-nb {
+  	position:relative;
+  	top: -10px;
+  	left:10px;
+  	font-size:25px;
+  }
+  .select-quantity {
+    float: right;
+  }
+    .article-quantity {
+      width:50px;
+      font-size: 25px;
+      text-align:center;
+      position:relative;
+      top: 6px;
+    }

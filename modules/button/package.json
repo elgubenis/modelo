@@ -1,6 +1,6 @@
 {
-  "name": "@modelo/drawer",
-  "version": "1.0.4",
+  "name": "es6-module-boilerplate-browser",
+  "version": "1.0.0",
   "description": "bundled and tested es6 module development and distribution boilerplate for the web/html/browser",
   "main": "server/src/index.js",
   "scripts": {
@@ -38,7 +38,6 @@
     "handlebars": "^4.0.5",
     "hbsfy": "^2.4.1",
     "jquery": "^2.1.4",
-    "material-design-lite": "^1.1.1",
     "mocha": "^2.3.4",
     "sinon": "^1.17.3",
     "underscore": "^1.8.3",
