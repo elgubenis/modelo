@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/material-design-lite/material.min.css" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
     <!-- Mocha layout -->
@@ -36,7 +36,12 @@
         },
       });
 
-      const directionView = new Marionette.DirectionView({});
+      const directionView = new Marionette.DirectionView({
+        model: new Backbone.Model(),
+        onClick() {
+          console.log('onClick');
+        }
+      });
       const layout = new LayoutView();
       layout.getRegion('preview').show(directionView);
     </script>
