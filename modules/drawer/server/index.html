@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Module Preview</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/material-design-lite/material.min.css" />
+  </head>
+  <body>
+    <!-- Mocha layout -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+  </header>
+  <div id='module' class='mdl-layout__drawer'></div>
+
+  </div>
+
+
+    <!-- Dependencies -->
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/underscore/underscore.js"></script>
+    <script src="/handlebars/dist/handlebars.runtime.min.js"></script>
+    <script src="/backbone/backbone.js"></script>
+    <script src="/backbone.marionette/lib/backbone.marionette.js"></script>
+    <script src="/material-design-lite/material.js"></script>
+
+    <!-- Module -->
+    <script src="/src/index.js"></script>
+    <script>
+      const LayoutView = Marionette.LayoutView.extend({
+        template: false,
+        el: 'body',
+        regions: {
+          preview: '#module'
+        },
+        initialize() {
+          this.render();
+        },
+      });
+      const drawerView = new Marionette.Modelo.DrawerView({});
+      const layout = new LayoutView();
+      layout.getRegion('preview').show(drawerView);
+    </script>
+  </body>
+</html>
