@@ -19,6 +19,7 @@ var router = express.Router();
 app.use(router)
 // == endpoints ==
 var articles = require('./controllers/articles')(router);
+var orders   = require('./controllers/orders')(router);
 // listen server
 app.listen(app.get('port'), function(err){
   if(!err){

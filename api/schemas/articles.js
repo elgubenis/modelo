@@ -1,12 +1,11 @@
-var Schema, article, mongoose;
-
-mongoose = require('mongoose');
-
+var mongoose     = require('mongoose');
 mongoose.Promise = require('bluebird');
+var timestamps   = require('mongoose-timestamp');
 
-Schema = mongoose.Schema;
 
-article = new Schema({
+var Schema = mongoose.Schema;
+
+var article = new Schema({
   name: {
     type: String
   },
@@ -26,5 +25,7 @@ article = new Schema({
     type: String
   }
 });
+
+article.plugin(timestamps);
 
 module.exports = mongoose.model('articles', article);

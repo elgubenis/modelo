@@ -1,3 +1,3 @@
 exports.db = {
-  database: 'mongodb://localhost:27017/test_modelo'
+  database: 'mongodb://modelo:mod77@ds057934.mlab.com:57934/modelo_now'
 }
