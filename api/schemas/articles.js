@@ -14,6 +14,15 @@ article = new Schema({
     type: String
   },
   price: {
+    type: Number
+  },
+  stars: {
+    type: Number
+  },
+  quantity: {
+    type: Number
+  },
+  image: {
     type: String
   }
 });
