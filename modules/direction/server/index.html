@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Module Preview</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Mocha layout -->
+    <div id="module"></div>
+
+    <!-- Dependencies -->
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/underscore/underscore.js"></script>
+    <script src="/handlebars/dist/handlebars.runtime.min.js"></script>
+    <script src="/backbone/backbone.js"></script>
+    <script src="/backbone.marionette/lib/backbone.marionette.js"></script>
+
+    <!-- Module -->
+    <script src="/src/index.js"></script>
+    <script>
+      const LayoutView = Marionette.LayoutView.extend({
+        template: false,
+        el: 'body',
+        regions: {
+          preview: '#module'
+        },
+        initialize() {
+          this.render();
+        },
+      });
+
+      const directionView = new Marionette.DirectionView({});
+      const layout = new LayoutView();
+      layout.getRegion('preview').show(directionView);
+    </script>
+  </body>
+</html>
