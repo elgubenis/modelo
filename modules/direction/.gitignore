@@ -28,6 +28,3 @@ node_modules
 
 # Compiled distribution package
 dist
-
-# Temporary building files
-server/src
