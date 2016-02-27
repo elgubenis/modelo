@@ -30,6 +30,11 @@
     <!-- Module -->
     <script src="/src/index.js"></script>
     <script>
+      const user = new Backbone.Model({
+        name: 'Roberto',
+        lastName: 'Sosa',
+        image: 'http://assets.fxnetworks.com/shows/the-simpsons/photos/swsb_character_fact_barney_550x960.png',
+      })
       const LayoutView = Marionette.LayoutView.extend({
         template: false,
         el: 'body',
@@ -40,7 +45,14 @@
           this.render();
         },
       });
-      const drawerView = new Marionette.Modelo.DrawerView({});
+      const drawerView = new Marionette.Modelo.DrawerView({
+        menu: [
+        { label: 'Usuario', href: 'user' },
+        { label: 'Pedidos', href:'orders' },
+        { label: 'Eventos', href: 'events'},
+        ],
+        user: user,
+      });
       const layout = new LayoutView();
       layout.getRegion('preview').show(drawerView);
     </script>
