@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/material-design-lite/material.min.css" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
     <!-- Mocha layout -->
@@ -20,6 +20,7 @@
     <script src="/backbone/backbone.js"></script>
     <script src="/backbone.marionette/lib/backbone.marionette.js"></script>
     <script src="/material-design-lite/material.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCF-uWecCIE-H1k8nOO2RqsKfxOQEuB5Xo&libraries=visualization"></script>
 
     <!-- Module -->
     <script src="/src/index.js"></script>
@@ -35,7 +36,12 @@
         },
       });
 
-      const directionView = new Marionette.DirectionView({});
+      const directionView = new Marionette.DirectionView({
+        model: new Backbone.Model(),
+        onClick() {
+          console.log('onClick');
+        }
+      });
       const layout = new LayoutView();
       layout.getRegion('preview').show(directionView);
     </script>

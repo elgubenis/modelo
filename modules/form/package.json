@@ -1,5 +1,5 @@
 {
-  "name": "modelo-now-form",
+  "name": "@modelo/form",
   "version": "1.0.0",
   "description": "bundled and tested es6 module development and distribution boilerplate for the web/html/browser",
   "main": "server/src/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "modelo-now-direction",
+  "name": "@modelo/direction",
   "version": "1.0.0",
   "description": "bundled and tested es6 module development and distribution boilerplate for the web/html/browser",
   "main": "server/src/index.js",
@@ -46,6 +46,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
+    "googleapis": "^2.1.7",
     "material-design-lite": "^1.1.1"
   }
 }
