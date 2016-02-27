@@ -2,7 +2,7 @@
   "name": "es6-module-boilerplate-browser",
   "version": "1.0.0",
   "description": "bundled and tested es6 module development and distribution boilerplate for the web/html/browser",
-  "main": "dist/index.min.js",
+  "main": "server/src/index.js",
   "scripts": {
     "test": "gulp test"
   },
