@@ -11,6 +11,6 @@ node_modules
 build
 
 # the source code
-
+src
 
 package.json-e

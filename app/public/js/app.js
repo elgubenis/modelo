@@ -5,12 +5,16 @@ const layoutTemplate = `
 }
 #toast {
   position:absolute;
-  top: 0px;
+  top: 40%;
   width: 100%;
-  height: 100%;
+  height: 80px;
 }
 #toast.active {
   z-index: 100;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+#toast.active span{
+  opacity: 1!important;
 }
 .show-total span {
   font-size: 70px;
@@ -97,7 +101,8 @@ const Router = Marionette.AppRouter.extend({
   controller: {
     order() {
       var self = this;
-      this._showTotal = _.debounce(this._showTotal, 500);
+      this._showTotal = _.debounce(this._showTotal.bind(this), 500);
+      this._closeTotal = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
         articles.listenTo(articles, 'change', self._showTotal);
       });
@@ -123,9 +128,11 @@ const Router = Marionette.AppRouter.extend({
       });
       layout.getRegion('toast').show(showTotal);
       $('#toast').addClass('active');
-      setTimeout(function(){
-        $('#toast').removeClass('active');
-      }, 1600);
+      this._closeTotal();
+    },
+    _closeTotal: function() {
+      console.log('close total')
+      $('#toast').removeClass('active');
     }
   },
   onRoute: function () {
@@ -148,20 +155,3 @@ Backbone.history.start({
 
 const userChannel = Backbone.Radio.channel('user');
 
-userChannel.on('joined', () => {
-  console.log(pushcrew.subscriberId);
-});
-
-(function(p,u,s,h){
-    p._pcq=p._pcq||[];
-    p._pcq.push(['_currentTime',Date.now()]);
-    p._pcq.push(['APIReady', () => {
-      alert('1');
-    }]);
-    s=u.createElement('script');
-    s.type='text/javascript';
-    s.async=true;
-    s.src='https://cdn.pushcrew.com/js/7a8474c7728d7f23e99c77939824f57e.js';
-    h=u.getElementsByTagName('script')[0];
-    h.parentNode.insertBefore(s,h);
-})(window,document);
