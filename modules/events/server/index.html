@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Module Preview</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/material-design-lite/material.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  <body>
+    <!-- Mocha layout -->
+    <div id="module"></div>
+
+    <!-- Dependencies -->
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/underscore/underscore.js"></script>
+    <script src="/handlebars/dist/handlebars.runtime.min.js"></script>
+    <script src="/backbone/backbone.js"></script>
+    <script src="/backbone.marionette/lib/backbone.marionette.js"></script>
+    <script src="/material-design-lite/material.js"></script>
+
+    <!-- Module -->
+    <script src="/src/index.js"></script>
+    <script>
+      const LayoutView = Marionette.LayoutView.extend({
+        template: false,
+        el: 'body',
+        regions: {
+          preview: '#module'
+        },
+        initialize() {
+          this.render();
+        },
+      });
+
+      const layout = new LayoutView();
+      eventList = [
+        {
+          name: 'Formula 1',
+          description: 'Evento sobre la Formula1',
+          discount: 50,
+          image: 'http://formula1.autobild.es/sites/formula1.autobild.es/files/f1_mexico_cartel.png'
+        },
+        {
+          name: 'White noise',
+          description: 'Evento Beerhouse',
+          discount: 5,
+          image: 'http://www.beerhouse.co.za/wp-content/uploads/2014/04/BH-Silent-Disco-4-LOGOS-only-V2-Logo-colour-shadows.jpg'
+        }
+      ];
+      const collection = new Backbone.Collection(eventList);
+      const eventsListView = new Marionette.EventsList({
+        collection: collection
+      });
+      layout.getRegion('preview').show(eventsListView);
+    </script>
+  </body>
+</html>
