@@ -3,8 +3,5 @@ var Article = require('./article/index.js');
 
 Marionette.ArticleList = Marionette.CollectionView.extend({
   className: 'mdl-grid',
-  childView: Article,
-  initialize: function(options) {
-  	this.collection.discount = options.discount;
-  }
+  childView: Article
 });

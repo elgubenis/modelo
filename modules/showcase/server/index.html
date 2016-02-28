@@ -56,9 +56,9 @@
         }
       ];
       const collection = new Backbone.Collection(articleList);
+      collection.discount = 10;
       const articleListView = new Marionette.ArticleList({
-        collection: collection,
-        discount: 10
+        collection: collection
       });
       layout.getRegion('preview').show(articleListView);
     </script>
