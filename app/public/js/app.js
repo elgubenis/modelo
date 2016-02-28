@@ -25,6 +25,10 @@ const layoutTemplate = `
   </main>
 </div>`;
 
+const Articles = Backbone.Collection.extend({
+  url: 'http://localhost:1337/articles'
+});
+
 const LayoutView = Marionette.LayoutView.extend({
   el: 'main',
   template: _.template(layoutTemplate),
@@ -34,23 +38,23 @@ const LayoutView = Marionette.LayoutView.extend({
     content: '#content'
   },
   onRender() {
-    // this.getRegion('content').show(new Marionette.Form({
-    //   text: '',
-    //   buttons: [
-    //     {
-    //       label: 'SI',
-    //       onClick: function() {
-    //         alert('SI');
-    //       }
-    //     },
-    //     {
-    //       label: 'NO',
-    //       onClick: function() {
-    //         alert('NO');
-    //       }
-    //     }
-    //   ]
-    // }));
+    this.getRegion('content').show(new Marionette.Form({
+      text: 'Eres mayor de edad?',
+      buttons: [
+        {
+          label: 'SI',
+          onClick: function() {
+            Backbone.history.navigate('/order', true);
+          }
+        },
+        {
+          label: 'NO',
+          onClick: function() {
+            document.location.href = 'http://www.google.com';
+          }
+        }
+      ]
+    }));
   }
 });
 
@@ -77,6 +81,7 @@ layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
 }));
 //layout.getRegion('header').show(new Marionette.form());
 
+const articles = new Articles();
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -86,7 +91,8 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     order() {
-
+      articles.fetch();
+      layout.getRegion('content').show(new Marionette.ArticleList({ collection: articles }))
     },
     orders() {
 
@@ -102,6 +108,10 @@ const Router = Marionette.AppRouter.extend({
     document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
   }
 });
+
+if (document.location.pathname != '/') {
+  document.location.href = '/';
+}
 
 new Router();
 

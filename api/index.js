@@ -9,9 +9,9 @@ var express    = require('express'),
 mongoose.connect(config.db.database);
 // config api
 var router = express.Router();
+app.use(corser.create());
 app.use(router)
 app.set('port', 1337)
-app.use(corser.create());
 app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(function(req, res, next) {

@@ -11,6 +11,6 @@ app.use(corser.create());
 
 app.use(fallback('index.html', { root, modules }));
 
-app.listen(8081, () => {
+app.listen(80, () => {
   console.log('listening');
 });
