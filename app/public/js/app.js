@@ -251,10 +251,10 @@ const Router = Marionette.AppRouter.extend({
       var confirmationView = new Marionette.Modelo.ConfirmationView({});
       layout.getRegion('footer').empty();
       layout.getRegion('content').show(confirmationView);
-      if (this.lastOrderId) {
+      if (this.lastOrderNo) {
         let txt = $('.mdl-card__title-text').text();
-        txt += ` ${this.lastOrderId}`;
-        this.lastOrderId = undefined;
+        txt += ` # de Pedido: ${this.lastOrderNo}`;
+        this.lastOrderNo = undefined;
         $('.mdl-card__title-text').text(txt);
       }
     },
@@ -280,7 +280,7 @@ const Router = Marionette.AppRouter.extend({
           }
           var order = new Order(opts);
           order.save().done(() => {
-            self.lastOrderId = order.get('_id');
+            self.lastOrderNo = order.get('order_no');
             Backbone.history.navigate('/confirmation', true);
           })
         }
