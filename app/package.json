@@ -1,0 +1,27 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelo/drawer": "^1.0.0",
+    "@modelo/form": "^1.0.1",
+    "backbone": "^1.2.3",
+    "backbone.intercept": "^0.4.2",
+    "backbone.marionette": "^2.4.4",
+    "backbone.radio": "^1.0.2",
+    "corser": "^2.0.0",
+    "express": "^4.13.4",
+    "express-history-api-fallback": "^2.0.0",
+    "handlebars": "^4.0.5",
+    "jquery": "^2.2.1",
+    "material-design-lite": "^1.1.1",
+    "underscore": "^1.8.3"
+  }
+}
