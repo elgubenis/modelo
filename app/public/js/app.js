@@ -177,6 +177,7 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     code(_id) {
+      $('.mdl-layout__drawer-button').css({ display: 'block' });
       const promotion = new Promotion({ shortid: _id });
       promotion.fetch().then(() => {
         articles.discount = promotion.get('discount');
