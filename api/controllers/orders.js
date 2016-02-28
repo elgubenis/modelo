@@ -42,7 +42,7 @@ module.exports = function(router){
 
       Orders.create(order)
       .then(function(result){
-        Users.findByIdAndUpdate(order.userId, { 
+        Users.findByIdAndUpdate(order.userId, {
           $push: {
             'orders': result
           }

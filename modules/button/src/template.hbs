@@ -1,3 +1,13 @@
-{{!-- <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"> --}}
-  <i class="material-icons">add</i>
-{{!-- </button> --}}
+<div class="mdl-speed-dial__options">
+    <div class="mdl-speed-dial__option">
+      <p class="mdl-speed-dial__tooltip">Programar</p>
+      <a href="#" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+        <i id="addSchedule" class="material-icons">date_range</i>
+      </a>
+    </div>
+  </div>
+<!-- Be sure to put the .mdl-speed-dial__main-fab button after the .mdl-speed-dial__options section -->
+<button id="addOrder" class="mdl-speed-dial__main-fab mdl-speed-dial__main-fab--spin mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+  <i class="material-icons mdl-speed-dial_main-fab-icon mdl-speed-dial_main-fab-icon--primary">shopping_cart</i>
+  <i class="material-icons mdl-speed-dial_main-fab-icon mdl-speed-dial_main-fab-icon--secondary">add_shopping_cart</i>
+</button>
