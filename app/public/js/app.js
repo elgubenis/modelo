@@ -280,8 +280,7 @@ const Router = Marionette.AppRouter.extend({
           }
           var order = new Order(opts);
           order.save().done(() => {
-            console.log(order.toJSON());
-            this.lastOrderId = order.get('_id');
+            self.lastOrderId = order.get('_id');
             Backbone.history.navigate('/confirmation', true);
           })
         }
