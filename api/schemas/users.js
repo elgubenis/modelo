@@ -34,7 +34,8 @@ var user = new Schema({
     hasAward: { 
       type: Boolean
     }
-  }]
+  }],
+  events: []
 });
 
 user.plugin(timestamps);
