@@ -275,7 +275,7 @@ const Router = Marionette.AppRouter.extend({
             userId: user.get('_id'),
             direction: this.model.get('direction')
           };
-          if (this.model.collection.discount) {
+          if (this.model.collection && this.model.collection.discount) {
             opts.discount = this.model.collection.discount;
           }
           var order = new Order(opts);
