@@ -9,7 +9,6 @@ var express    = require('express'),
 mongoose.connect(config.db.database);
 // config api
 app.use(corser.create());
-var router = express.Router();
 app.set('port', 1337)
 
 app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
@@ -17,7 +16,8 @@ app.use(bodyParser.json({limit: '5mb'}));
 
 // == Router ==
 var router = express.Router();
-app.use(router)
+app.use(router);
+
 // == endpoints ==
 require('./controllers/articles')(router);
 require('./controllers/orders')(router);
