@@ -9,9 +9,15 @@ var user = new Schema({
     type: String,
     required: true
   },
+  fullName: {
+    type: String
+  },
   email: {
     type: String,
     required: true
+  },
+  image: {
+    type: String
   },
   location: { 
     type: [ Number ],

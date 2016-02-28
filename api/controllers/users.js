@@ -14,6 +14,7 @@ module.exports = function(router){
 
   router.route('/users/:_id').get(function(req, res){
     Users.findById(req.params._id)
+    .select('fullName image')
     .then(function(result){
       res.send(result);
     })
