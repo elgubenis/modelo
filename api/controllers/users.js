@@ -68,7 +68,7 @@ module.exports = function(router){
 
   router.route('/users/:_id/orders').get(function(req, res){
     Users.findById(req.params._id)
-    .select('orders.createdAt orders.total')
+    .select('orders.createdAt orders.total orders.order_no')
     .then(function(result){
       res.send(result.orders);
     })
