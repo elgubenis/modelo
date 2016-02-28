@@ -1,12 +1,13 @@
-Orders = require('../schemas/orders');
+Orders   = require('../schemas/orders');
 Articles = require('../schemas/articles');
+Users    = require('../schemas/users');
 
 module.exports = function(router){
 
   router.route('/orders').get(function(req, res){
     Orders.find()
-    .then(function(orders){
-      res.send(orders);
+    .then(function(result){
+      res.send(result);
     })
     .catch(function(err){
       res.status(500).send(err);
@@ -40,9 +41,14 @@ module.exports = function(router){
       }
 
       Orders.create(order)
-      .then(function(order){
-        // TODO save
-        res.send(order);
+      .then(function(result){
+        Users.findByIdAndUpdate(order.userId, { 
+          $push: {
+            'orders': result
+          }
+        }).then(function(){
+            res.send(result);
+        })
       })
       .catch(function(err){
         res.status(500).send(err);
@@ -52,8 +58,8 @@ module.exports = function(router){
 
   router.route('/orders/:_id').put(function(req, res){
     Orders.findByIdAndUpdate(req.params._id, req.body, { new: true })
-    .then(function(order){
-      res.send(order);
+    .then(function(result){
+      res.send(result);
     })
     .catch(function(err){
       res.status(500).send(err);
@@ -62,8 +68,8 @@ module.exports = function(router){
 
   router.route('/orders/:_id').delete(function(req, res){
     Orders.findByIdAndRemove(req.params._id)
-    .then(function(order){
-      res.send(order);
+    .then(function(result){
+      res.send(result);
     })
     .catch(function(err){
       res.status(500).send(err);

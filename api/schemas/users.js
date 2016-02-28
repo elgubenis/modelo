@@ -13,9 +13,11 @@ var user = new Schema({
     type: String,
     required: true
   },
+  lat: { type: Number },
+  long: { type: Number },
   orders: [],
   liters: {
-    type: String
+    type: Number
   }
 });
 
