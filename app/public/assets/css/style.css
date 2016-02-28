@@ -65,3 +65,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', end
 .mdl-card__supporting-text {
   width: initial;
 }
+
+.countdown {
+  z-index: 1000;
+  width: 53px;
+  height: 20px;
+  font-size: 16pt;
+  background-color: #FFF;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+  padding: 5px;
+  border-radius: 3px;
+  position: fixed;
+  bottom: 25px;
+  left: 10px;
+}
