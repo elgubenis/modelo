@@ -98,7 +98,6 @@ user.fetch().then(() => {
 });
 //layout.getRegion('header').show(new Marionette.form());
 
-const articles = new Articles();
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -109,12 +108,16 @@ const Router = Marionette.AppRouter.extend({
   controller: {
     order() {
       var self = this;
-      this._showTotal = _.debounce(this._showTotal.bind(this), 500);
-      this._closeTotal = _.debounce(this._closeTotal, 1600);
+      var articles = new Articles();
+      this.articles = articles
+      this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
+      this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
-        articles.listenTo(articles, 'change', self._showTotal);
+        articles.listenTo(articles, 'change', self._showTotalDebounce);
       });
-      layout.getRegion('content').show(new Marionette.ArticleList({ collection: articles }))
+      layout.getRegion('content').show(new Marionette.ArticleList({ 
+        collection: articles
+      }))
     },
     orders() {
 
@@ -126,8 +129,9 @@ const Router = Marionette.AppRouter.extend({
 
     },
     _showTotal: function() {
+      console.log('show total');
       var total = 0;
-      articles.each(function(article){
+      this.articles.each(function(article){
         total+= parseFloat(article.get('currentPrice'));
       });
       total = total.toFixed(2);
@@ -136,7 +140,7 @@ const Router = Marionette.AppRouter.extend({
       });
       layout.getRegion('toast').show(showTotal);
       $('#toast').addClass('active');
-      this._closeTotal();
+      this._closeTotalDebounce();
     },
     _closeTotal: function() {
       console.log('close total')
