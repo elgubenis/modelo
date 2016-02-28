@@ -18,7 +18,7 @@ module.exports = function(router){
       result = result.toObject();
       const now = new Date().getTime();
       const old = new Date(result.start).getTime();
-      if ((now-old)/1000) > 20) {
+      if ((now-old)/1000 > 20) {
         result.discount = undefined;
       }
       res.send(result);
