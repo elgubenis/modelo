@@ -26,7 +26,7 @@ const layoutTemplate = `
 </div>`;
 
 const Articles = Backbone.Collection.extend({
-  url: 'http://localhost:1337/articles'
+  url: 'http://modelo.mobi:1337/articles'
 });
 
 const LayoutView = Marionette.LayoutView.extend({
@@ -122,9 +122,16 @@ Backbone.history.start({
   pushState: true
 });
 
+const userChannel = Backbone.Radio.channel('user');
+
+userChannel.on('joined', () => {
+  console.log(pushcrew.subscriberId);
+});
+
 (function(p,u,s,h){
     p._pcq=p._pcq||[];
     p._pcq.push(['_currentTime',Date.now()]);
+    p._pcq.push(['APIReady', userChannel.trigger.bind({}, 'joined')]);
     s=u.createElement('script');
     s.type='text/javascript';
     s.async=true;
