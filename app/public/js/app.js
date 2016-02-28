@@ -270,12 +270,15 @@ const Router = Marionette.AppRouter.extend({
       var directionView = new Marionette.DirectionView({
         model: new Backbone.Model(),
         onClick() {
-          var order = new Order({
+          const opts = {
             articles: self.articles.toJSON(),
             userId: user.get('_id'),
-            direction: this.model.get('direction'),
-            discount: this.model.collection.discount
-          });
+            direction: this.model.get('direction')
+          };
+          if (this.model.collection.discount) {
+            opts.discount = this.model.collection.discount;
+          }
+          var order = new Order(opts);
           order.save().done(() => {
             this.lastOrderId = order.get('_id');
             Backbone.history.navigate('/confirmation', true);
