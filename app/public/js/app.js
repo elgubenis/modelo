@@ -177,10 +177,19 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     code(_id) {
+      $('.mdl-layout__drawer-button').css({ display: 'block' });
       const promotion = new Promotion({ shortid: _id });
       promotion.fetch().then(() => {
         articles.discount = promotion.get('discount');
-        articles.start = new Date();
+        articles.start = new Date().getTime()/1000;
+
+        articles.end = articles.start+(20*1)
+        setTimeout(() => {
+          articles.trigger('timeout');
+        }, (articles.end-articles.start)*1000);
+        Backbone.history.navigate('/order');
+        this.order();
+      }).catch(() => {
         Backbone.history.navigate('/order');
         this.order();
       });
