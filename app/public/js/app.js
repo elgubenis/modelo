@@ -185,9 +185,11 @@ const Router = Marionette.AppRouter.extend({
 
         articles.end = articles.start+(60*1)
         setTimeout(() => {
-          console.log('timeout');
           articles.trigger('timeout');
         }, (articles.end-articles.start)*1000);
+        Backbone.history.navigate('/order');
+        this.order();
+      }).catch(() => {
         Backbone.history.navigate('/order');
         this.order();
       });
