@@ -180,16 +180,18 @@ const Router = Marionette.AppRouter.extend({
       $('.mdl-layout__drawer-button').css({ display: 'block' });
       const promotion = new Promotion({ shortid: _id });
       promotion.fetch().then(() => {
-        articles.discount = promotion.get('discount');
-        articles.start = new Date().getTime()/1000;
+        if (promotion.get('discount')) {
+          articles.discount = promotion.get('discount');
+          articles.start = new Date().getTime()/1000;
 
-        articles.end = articles.start+(20*1)
-        setTimeout(() => {
-          articles.trigger('timeout');
-        }, (articles.end-articles.start)*1000);
-        Backbone.history.navigate('/order');
-        this.order();
-      }).catch(() => {
+          articles.end = articles.start+(20*1)
+          setTimeout(() => {
+            delete articles.discount;
+            delete articles.start;
+            delete articles.end;
+            articles.trigger('timeout');
+          }, (articles.end-articles.start)*1000);
+        }
         Backbone.history.navigate('/order');
         this.order();
       });
@@ -249,6 +251,12 @@ const Router = Marionette.AppRouter.extend({
       var confirmationView = new Marionette.Modelo.ConfirmationView({});
       layout.getRegion('footer').empty();
       layout.getRegion('content').show(confirmationView);
+      if (this.lastOrderId) {
+        let txt = $('.mdl-card__title-text').text();
+        txt += ` ${this.lastOrderId}`;
+        this.lastOrderId = undefined;
+        $('.mdl-card__title-text').text(txt);
+      }
     },
     ticket() {
       var self = this;
@@ -265,9 +273,11 @@ const Router = Marionette.AppRouter.extend({
           var order = new Order({
             articles: self.articles.toJSON(),
             userId: user.get('_id'),
-            direction: this.model.get('direction')
+            direction: this.model.get('direction'),
+            discount: this.model.collection.discount
           });
-          order.save().done(function(){
+          order.save().done(() => {
+            this.lastOrderId = order.get('_id');
             Backbone.history.navigate('/confirmation', true);
           })
         }
