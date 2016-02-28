@@ -14,30 +14,16 @@ module.exports = function(router){
   }).options(function(req, res){
     res.send()
   });
-  
+
   router.route('/users/:_id').get(function(req, res){
-
-    const options = {
-      url: 'http://api.pushengage.com/apiv1/segments',
-      headers: {
-        api_key: '6f0RtKN4PFh51Cnj3uL0clqbD6H72rge',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      formData: {
-        segment_name: req.params._id,
-      }
-    };
-
-    request.post(options, (err, httpResponse, body) => {
-      Users.findById(req.params._id)
-      .select('name lastName image')
-      .then(function(result){
-        res.send(result);
-      })
-      .catch(function(err){
-        res.status(500).send(err);
-      })
-    });
+    Users.findById(req.params._id)
+    .select('name lastName image')
+    .then(function(result){
+      res.send(result);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
   }).options(function(req, res){
     res.send()
   });
