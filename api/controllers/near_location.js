@@ -17,5 +17,7 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     })
-  })
+  }).options(function(req, res){
+    res.send()
+  });
 }

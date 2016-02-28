@@ -22,6 +22,7 @@ module.exports = function(router){
       console.log(body);
       res.send(body);
     });
+  }).options(function(req, res){
+    res.send()
   });
-
 }

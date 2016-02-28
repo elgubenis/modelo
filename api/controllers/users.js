@@ -10,8 +10,10 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
+  }).options(function(req, res){
+    res.send()
   });
-
+  
   router.route('/users/:_id').get(function(req, res){
     Users.findById(req.params._id)
     .select('name lastName image')
@@ -21,6 +23,8 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
+  }).options(function(req, res){
+    res.send()
   });
 
   router.route('/users').post(function(req, res){
@@ -31,6 +35,8 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
+  }).options(function(req, res){
+    res.send()
   });
 
   router.route('/users/:_id').put(function(req, res){
@@ -41,6 +47,8 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
+  }).options(function(req, res){
+    res.send()
   });
 
   router.route('/users/:_id').delete(function(req, res){
@@ -51,6 +59,8 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
+  }).options(function(req, res){
+    res.send()
   });
 
 }
