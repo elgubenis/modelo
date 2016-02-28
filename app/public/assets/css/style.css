@@ -30,9 +30,10 @@ h3 {
 }
 
 .drawer-img-circle {
-  width: 50px !important;
+  width: 75px !important;
   max-height: 128px !important;
   text-align: center;
+  padding: 5px !important;
 }
 
 .drawer-user-profile {
@@ -47,6 +48,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', end
 
 }
 
+.mdl-layout__header {
+  background: rgb(135,224,253); /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  rgba(135,224,253,1) 0%, rgba(83,203,241,1) 40%, rgba(5,171,224,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg,  rgba(135,224,253,1) 0%,rgba(83,203,241,1) 40%,rgba(5,171,224,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg,  rgba(135,224,253,1) 0%,rgba(83,203,241,1) 40%,rgba(5,171,224,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
 .article-header .mdl-card__title-text {
   background-color: rgba(255,255,255,0.7);
   padding: 0px 5px;
@@ -55,4 +64,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', end
 
 .mdl-card__supporting-text {
   width: initial;
+}
+
+.countdown {
+  z-index: 1000;
+  width: 53px;
+  height: 20px;
+  font-size: 16pt;
+  background-color: #FFF;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+  padding: 5px;
+  border-radius: 3px;
+  position: fixed;
+  bottom: 25px;
+  left: 10px;
 }

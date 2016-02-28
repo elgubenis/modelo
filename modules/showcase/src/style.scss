@@ -1,5 +1,6 @@
 .article-header {
 	height: 176px;
+  position: relative;
 }
 
 .article-description .current-price{
@@ -28,3 +29,40 @@
       position:relative;
       top: 6px;
     }
+
+.article-discount {
+  position: absolute;
+  bottom: 1px;
+  right: 0px;
+  font-size: 20px!important;
+}
+
+.article-discount-background {
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    left: 56px;
+    top: 32px;
+}
+
+.article-discount-background::before,
+.article-discount-background::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.article-discount-background::before {
+    border-width: 30px;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.article-discount-background::after {
+    border-width: 30px;
+    border-right-color: red;
+    border-bottom-color: red;
+}

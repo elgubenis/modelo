@@ -17,7 +17,7 @@ module.exports = function(router){
     Users.findById(req.params._id)
     .select('name lastName image')
     .then(function(result){
-      res.send(result.events);
+      res.send(result);
     })
     .catch(function(err){
       res.status(500).send(err);
@@ -38,8 +38,39 @@ module.exports = function(router){
   router.route('/users/:_id/awards').get(function(req, res){
     Users.findById(req.params._id)
     .select('awards')
+    .lean()
     .then(function(result){
+      result.awards.map(function(award){
+        if(award.icon.indexOf('fa') != -1){
+          award.iconClass = award.icon
+          delete award.icon
+          return award
+        }
+      });
       res.send(result.awards);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+  });
+
+  router.route('/users/:_id/ml').get(function(req, res){
+    Users.findById(req.params._id)
+    .select('ml')
+    .lean()
+    .then(function(result){
+      res.send(result);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+  });
+
+  router.route('/users/:_id/orders').get(function(req, res){
+    Users.findById(req.params._id)
+    .select('orders')
+    .then(function(result){
+      res.send(result.orders);
     })
     .catch(function(err){
       res.status(500).send(err);

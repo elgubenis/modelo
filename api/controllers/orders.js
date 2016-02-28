@@ -18,9 +18,13 @@ module.exports = function(router){
     body = req.body;
     articleIds = [];
     body.articles.map(function(article){
-      articleIds.push(article._id)
+      if (article.quantity > 0) {
+        articleIds.push(article._id)
+      };
     });
-
+    if (articleIds.length == 0) {
+      return res.send({})
+    };
     Articles.find({ '_id': { $in: articleIds } })
     .lean()
     .then(function(articles){
@@ -34,21 +38,28 @@ module.exports = function(router){
         })
       });
 
+      if(body.discount){
+        total = total - (total * body.discount) / 100
+      }
+
       order = {
         userId: body.userId,
         total: total,
-        articles:articles
+        articles: articles
       }
-
+      return res.send(order)
       Orders.create(order)
       .then(function(result){
         Users.findByIdAndUpdate(order.userId, {
+          $inc: {
+            ml: 50
+          },
           $push: {
             'orders': result
           }
         }).then(function(){
             res.send(result);
-        })
+        });
       })
       .catch(function(err){
         res.status(500).send(err);

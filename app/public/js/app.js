@@ -1,6 +1,6 @@
 'use strict';
 
-if (document.location.pathname != '/') {
+if (document.location.pathname != '/' && document.location.pathname.indexOf('code') === -1) {
   document.location.href = '/';
 }
 
@@ -29,7 +29,7 @@ const layoutTemplate = `
 
 #footer {
   max-height: 200px;
-  background-color:rgba(255, 255, 255, 0.7);
+  background-color:rgba(255, 255, 255, 1);
 }
 </style>
 
@@ -44,6 +44,7 @@ const layoutTemplate = `
   <footer id="footer"></footer>
   <div id="toast"></div>
   <div id="cart"></div>
+  <div id="time"></div>
 </div>`;
 
 const Articles = Backbone.Collection.extend({
@@ -81,7 +82,8 @@ const LayoutView = Marionette.LayoutView.extend({
     content: '#content',
     footer: '#footer',
     toast: '#toast',
-    cart: '#cart'
+    cart: '#cart',
+    time: '#time'
   },
   onRender() {
     this.getRegion('content').show(new Marionette.Form({
@@ -143,15 +145,27 @@ layout.getRegion('header').show(searchView);
 componentHandler.upgradeDom();
 
 const Order = Backbone.Model.extend({
-  urlRoot: 'http://localhost:1337/orders',
+  urlRoot: 'http://www.modelo.mobi:1337/orders',
   idAttribute: '_id'
 });
 
 const Awards = Backbone.Collection.extend({
   url: function(){
-    return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
+    return 'http://www.modelo.mobi:1337/users/'+user.get('_id')+'/awards';
   }
 });
+
+const Events = Backbone.Collection.extend({
+  url: function(){
+    return 'http://www.modelo.mobi:1337/users/'+user.get('_id')+'/events';
+  }
+});
+
+const Promotion = Backbone.Model.extend({
+  urlRoot: 'http://www.modelo.mobi:1337/discounts/',
+  idAttribute: 'shortid'
+});
+
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -160,13 +174,38 @@ const Router = Marionette.AppRouter.extend({
     'profile': 'profile',
     'ticket': 'ticket',
     'confirmation': 'confirmation',
-    'achievments': 'achievments'
+    'achievments': 'achievments',
+    'code/:_id': 'code'
   },
   controller: {
+    code(_id) {
+      $('.mdl-layout__drawer-button').css({ display: 'block' });
+      const promotion = new Promotion({ shortid: _id });
+      promotion.fetch().then(() => {
+        if (promotion.get('discount')) {
+          articles.discount = promotion.get('discount');
+          articles.start = new Date().getTime()/1000;
+          articles.duration = 20;
+          articles.end = articles.start+(articles.duration*1);
+          setTimeout(() => {
+            delete articles.discount;
+            delete articles.start;
+            delete articles.end;
+            articles.trigger('timeout');
+          }, (articles.end-articles.start)*1000);
+        }
+        Backbone.history.navigate('/order');
+        this.order();
+      });
+    },
     order() {
       layout.getRegion('footer').empty();
       var self = this;
+      if (articles.discount) {
+        layout.getRegion('time').show(new Marionette.Countdown({ duration: articles.duration }));
+      }
       this.articles = articles;
+      this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
       this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
@@ -190,7 +229,15 @@ const Router = Marionette.AppRouter.extend({
 
     },
     events() {
-
+      layout.getRegion('cart').empty();
+      layout.getRegion('footer').empty();
+      layout.getRegion('toast').empty();
+      var eventsList = new Events();
+      eventsList.fetch()
+      var events = new Marionette.EventsList({
+        collection: eventsList
+      })
+      layout.getRegion('content').show(events)
     },
     profile() {
 
@@ -209,21 +256,36 @@ const Router = Marionette.AppRouter.extend({
       var confirmationView = new Marionette.Modelo.ConfirmationView({});
       layout.getRegion('footer').empty();
       layout.getRegion('content').show(confirmationView);
+      if (this.lastOrderNo) {
+        let txt = $('.mdl-card__title-text').text();
+        txt += ` # de Pedido: ${this.lastOrderNo}`;
+        this.lastOrderNo = undefined;
+        $('.mdl-card__title-text').text(txt);
+      }
     },
     ticket() {
       var self = this;
+      this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       layout.getRegion('cart').empty();
-      layout.getRegion('content').empty();
       layout.getRegion('cart').empty();
+      var ticketView = new Marionette.Ticket({
+        collection: this.articles
+      });
+      layout.getRegion('content').show(ticketView);
       var directionView = new Marionette.DirectionView({
         model: new Backbone.Model(),
         onClick() {
-          var order = new Order({
+          const opts = {
             articles: self.articles.toJSON(),
             userId: user.get('_id'),
             direction: this.model.get('direction')
-          });
-          order.save().done(function(){
+          };
+          if (this.model.collection && this.model.collection.discount) {
+            opts.discount = this.model.collection.discount;
+          }
+          var order = new Order(opts);
+          order.save().done(() => {
+            self.lastOrderNo = order.get('order_no');
             Backbone.history.navigate('/confirmation', true);
           })
         }
