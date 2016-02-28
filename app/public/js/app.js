@@ -1,3 +1,9 @@
+'use strict';
+
+if (document.location.pathname != '/') {
+  document.location.href = '/';
+}
+
 const layoutTemplate = `
 <style>
 .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
@@ -6,7 +12,8 @@ const layoutTemplate = `
 #toast {
   position:absolute;
   top: 40%;
-  width: 100%;
+  left: 25px;
+  width: calc(100% - 100px);
   height: 80px;
 }
 #toast.active {
@@ -17,7 +24,12 @@ const layoutTemplate = `
   opacity: 1!important;
 }
 .show-total span {
-  font-size: 70px;
+  font-size: 50px;
+}
+
+#footer {
+  max-height: 200px;
+  background-color:rgba(255, 255, 255, 0.7);
 }
 </style>
 
@@ -29,11 +41,35 @@ const layoutTemplate = `
   <main class="mdl-layout__content">
     <div class="page-content" id="content"></div>
   </main>
-  <div id="toast"> </div>
+  <footer id="footer"></footer>
+  <div id="toast"></div>
+  <div id="cart"></div>
 </div>`;
 
 const Articles = Backbone.Collection.extend({
-  url: 'http://modelo.mobi:1337/articles'
+  url: 'http://www.modelo.mobi:1337/articles',
+  initialize() {
+    this.listenTo(this, 'search', (query) => {
+      this.byQuery(query);
+    });
+  },
+  byQuery(query) {
+    if (query) {
+      query = query.toLowerCase();
+    }
+    if (!this.original) {
+      this.original = new Articles(this.models);
+    }
+    const filtered = this.original.filter((item) => {
+      let name = item.get('name');
+      if (name) {
+        name = name.toLowerCase();
+      }
+      return name.indexOf(query) > -1
+    });
+    this.reset(filtered);
+    this.trigger('searched');
+  }
 });
 
 const LayoutView = Marionette.LayoutView.extend({
@@ -43,7 +79,9 @@ const LayoutView = Marionette.LayoutView.extend({
     header: '#header',
     drawer: '#drawer',
     content: '#content',
-    toast: '#toast'
+    footer: '#footer',
+    toast: '#toast',
+    cart: '#cart'
   },
   onRender() {
     this.getRegion('content').show(new Marionette.Form({
@@ -52,7 +90,7 @@ const LayoutView = Marionette.LayoutView.extend({
         {
           label: 'SI',
           onClick: function() {
-            $('.mdl-layout__drawer-button').css({ display: 'initial' });
+            $('.mdl-layout__drawer-button').css({ display: 'block' });
             Backbone.history.navigate('/order', true);
           }
         },
@@ -71,42 +109,82 @@ const layout = new LayoutView();
 
 layout.render();
 
+const User = Backbone.Model.extend({
+  urlRoot: 'http://www.modelo.mobi:1337/users',
+  idAttribute: '_id',
+});
 
-layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
-  menu: [{
-    label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
-    href: '/order'
-  }, {
-    label: '<i class="fa fa-history"></i>&nbsp; Historial de pedidos',
-    href: '/orders'
-  }, {
-    label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
-    href: '/profile'
-  }, {
-    label: '<i class="fa fa-music"></i>&nbsp; Eventos',
-    href: '/events'
-  }],
-  user: new Backbone.Model({ name: 'Barney', lastName: 'Gumble', image: 'http://assets.fxnetworks.com/shows/the-simpsons/photos/swsb_character_fact_barney_550x960.png' })
-}));
+const user = new User({ _id: '56d28dabb23bf0423c8e12a9' });
+user.fetch().then(() => {
+  layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
+    menu: [{
+      label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir Ahora!',
+      href: '/order'
+    }, {
+      label: '<i class="fa fa-history"></i>&nbsp; Historial de Pedidos',
+      href: '/orders'
+    }, {
+      label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
+      href: '/profile'
+    }, {
+      label: '<i class="fa fa-beer"></i>&nbsp; Logros',
+      href: '/achievments'
+    }, {
+      label: '<i class="fa fa-music"></i>&nbsp; Eventos',
+      href: '/events'
+    }],
+    user: user
+  }));
+});
 //layout.getRegion('header').show(new Marionette.form());
+var articles = new Articles();
+const searchView = new Marionette.Search({ collection: articles });
+layout.getRegion('header').show(searchView);
+componentHandler.upgradeDom();
 
-const articles = new Articles();
+const Order = Backbone.Model.extend({
+  urlRoot: 'http://localhost:1337/orders',
+  idAttribute: '_id'
+});
+
+const Awards = Backbone.Collection.extend({
+  url: function(){
+    return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
+  }
+});
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
     'orders': 'orders',
     'events': 'events',
-    'profile': 'profile'
+    'profile': 'profile',
+    'ticket': 'ticket',
+    'confirmation': 'confirmation',
+    'achievments': 'achievments'
   },
   controller: {
     order() {
+      layout.getRegion('footer').empty();
       var self = this;
-      this._showTotal = _.debounce(this._showTotal.bind(this), 500);
-      this._closeTotal = _.debounce(this._closeTotal, 1600);
+      this.articles = articles;
+      this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
+      this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
-        articles.listenTo(articles, 'change', self._showTotal);
+        articles.listenTo(articles, 'change', self._showTotalDebounce);
       });
-      layout.getRegion('content').show(new Marionette.ArticleList({ collection: articles }))
+
+      layout.getRegion('content').show(new Marionette.ArticleList({
+        collection: articles
+      }))
+      var buttonView = new Marionette.Modelo.Button({
+        addOrder() {
+          Backbone.history.navigate('/ticket', true);
+        },
+        addSchedule() {
+          console.log('):');
+        },
+      });
+      layout.getRegion('cart').show(buttonView);
     },
     orders() {
 
@@ -117,9 +195,45 @@ const Router = Marionette.AppRouter.extend({
     profile() {
 
     },
+    achievments() {
+      layout.getRegion('cart').empty();
+      var awardsList = new Awards();
+      awardsList.fetch();
+      var awards = new Marionette.Awards({
+        collection: awardsList
+      });
+      layout.getRegion('content').empty();
+      layout.getRegion('footer').show(awards);
+    },
+    confirmation() {
+      var confirmationView = new Marionette.Modelo.ConfirmationView({});
+      layout.getRegion('footer').empty();
+      layout.getRegion('content').show(confirmationView);
+    },
+    ticket() {
+      var self = this;
+      layout.getRegion('cart').empty();
+      layout.getRegion('content').empty();
+      layout.getRegion('cart').empty();
+      var directionView = new Marionette.DirectionView({
+        model: new Backbone.Model(),
+        onClick() {
+          var order = new Order({
+            articles: self.articles.toJSON(),
+            userId: user.get('_id'),
+            direction: this.model.get('direction')
+          });
+          order.save().done(function(){
+            Backbone.history.navigate('/confirmation', true);
+          })
+        }
+      });
+      layout.getRegion('footer').show(directionView);
+    },
     _showTotal: function() {
+      console.log('show total');
       var total = 0;
-      articles.each(function(article){
+      this.articles.each(function(article){
         total+= parseFloat(article.get('currentPrice'));
       });
       total = total.toFixed(2);
@@ -128,7 +242,7 @@ const Router = Marionette.AppRouter.extend({
       });
       layout.getRegion('toast').show(showTotal);
       $('#toast').addClass('active');
-      this._closeTotal();
+      this._closeTotalDebounce();
     },
     _closeTotal: function() {
       console.log('close total')
@@ -142,10 +256,6 @@ const Router = Marionette.AppRouter.extend({
   }
 });
 
-if (document.location.pathname != '/') {
-  document.location.href = '/';
-}
-
 new Router();
 
 Backbone.Intercept.start();
@@ -154,4 +264,16 @@ Backbone.history.start({
 });
 
 const userChannel = Backbone.Radio.channel('user');
+
+const saveCurrentPosition = () => {
+  navigator.geolocation.getCurrentPosition(function(position) {
+      var latitude = position.coords.latitude.toFixed(3);
+      var longitude = position.coords.longitude.toFixed(3);
+      user.set('location', [longitude, latitude]);
+      user.save();
+  });
+};
+
+setTimeout(saveCurrentPosition, 1000*60*30);
+saveCurrentPosition();
 

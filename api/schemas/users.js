@@ -9,14 +9,33 @@ var user = new Schema({
     type: String,
     required: true
   },
+  lastName: {
+    type: String
+  },
   email: {
     type: String,
     required: true
   },
-  orders: [],
-  liters: {
+  image: {
     type: String
-  }
+  },
+  location: { 
+    type: [ Number ],
+    index: '2d'
+  },
+  orders: [],
+  awards: [{
+    name: { 
+      type: String
+    },
+    icon: { 
+      type: String
+    },
+    hasAward: { 
+      type: Boolean
+    }
+  }],
+  events: []
 });
 
 user.plugin(timestamps);

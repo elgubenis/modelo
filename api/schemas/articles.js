@@ -7,7 +7,9 @@ var Schema = mongoose.Schema;
 
 var article = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true,
+    unique: true
   },
   description: {
     type: String
