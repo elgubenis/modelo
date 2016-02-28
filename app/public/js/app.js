@@ -189,9 +189,6 @@ const Router = Marionette.AppRouter.extend({
         }, (articles.end-articles.start)*1000);
         Backbone.history.navigate('/order');
         this.order();
-      }).catch(() => {
-        Backbone.history.navigate('/order');
-        this.order();
       });
     },
     order() {
