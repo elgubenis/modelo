@@ -17,7 +17,7 @@ module.exports = function(router){
     Users.findById(req.params._id)
     .select('name lastName image')
     .then(function(result){
-      res.send(result);
+      res.send(result.events);
     })
     .catch(function(err){
       res.status(500).send(err);
@@ -28,7 +28,7 @@ module.exports = function(router){
     Users.findById(req.params._id)
     .select('events')
     .then(function(result){
-      res.send(result);
+      res.send(result.events);
     })
     .catch(function(err){
       res.status(500).send(err);
@@ -39,7 +39,7 @@ module.exports = function(router){
     Users.findById(req.params._id)
     .select('awards')
     .then(function(result){
-      res.send(result);
+      res.send(result.awards);
     })
     .catch(function(err){
       res.status(500).send(err);
