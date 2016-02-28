@@ -11,6 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "@modelo/article-list": "^1.0.0",
+    "@modelo/awards": "^1.0.0",
+    "@modelo/button": "^1.0.1",
+    "@modelo/confirmationview": "^1.0.3",
+    "@modelo/direction": "^1.0.0",
     "@modelo/drawer": "^1.0.0",
     "@modelo/form": "^1.0.1",
     "@modelo/show-total": "^1.0.0",
