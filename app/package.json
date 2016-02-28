@@ -14,6 +14,7 @@
     "@modelo/awards": "^1.0.0",
     "@modelo/button": "^1.0.1",
     "@modelo/confirmationview": "^1.0.3",
+    "@modelo/countdown": "^1.0.0",
     "@modelo/direction": "^1.0.0",
     "@modelo/drawer": "^1.0.0",
     "@modelo/events": "^1.0.2",

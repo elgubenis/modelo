@@ -44,6 +44,7 @@ const layoutTemplate = `
   <footer id="footer"></footer>
   <div id="toast"></div>
   <div id="cart"></div>
+  <div id="time"></div>
 </div>`;
 
 const Articles = Backbone.Collection.extend({
@@ -81,7 +82,8 @@ const LayoutView = Marionette.LayoutView.extend({
     content: '#content',
     footer: '#footer',
     toast: '#toast',
-    cart: '#cart'
+    cart: '#cart',
+    time: '#time'
   },
   onRender() {
     this.getRegion('content').show(new Marionette.Form({
@@ -183,8 +185,8 @@ const Router = Marionette.AppRouter.extend({
         if (promotion.get('discount')) {
           articles.discount = promotion.get('discount');
           articles.start = new Date().getTime()/1000;
-
-          articles.end = articles.start+(20*1)
+          articles.duration = 20;
+          articles.end = articles.start+(articles.duration*1);
           setTimeout(() => {
             delete articles.discount;
             delete articles.start;
@@ -199,6 +201,9 @@ const Router = Marionette.AppRouter.extend({
     order() {
       layout.getRegion('footer').empty();
       var self = this;
+      if (articles.discount) {
+        layout.getRegion('time').show(new Marionette.Countdown({ duration: articles.duration }));
+      }
       this.articles = articles;
       this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
