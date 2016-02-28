@@ -167,9 +167,13 @@ const Router = Marionette.AppRouter.extend({
     'profile': 'profile',
     'ticket': 'ticket',
     'confirmation': 'confirmation',
-    'achievments': 'achievments'
+    'achievments': 'achievments',
+    'code/:_id': 'code'
   },
   controller: {
+    code(_id) {
+      alert(_id);
+    },
     order() {
       layout.getRegion('footer').empty();
       var self = this;
