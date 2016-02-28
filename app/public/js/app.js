@@ -183,11 +183,11 @@ const Router = Marionette.AppRouter.extend({
         articles.discount = promotion.get('discount');
         articles.start = new Date();
 
-        articles.end = (articles.start.getTime()/1000)+(60*1000*1)
+        articles.end = (articles.start.getTime()/1000)+(60*1)
         setTimeout(() => {
           console.log('timeout');
           this.trigger('timeout');
-        });
+        }, (articles.end-articles.start.getTime()/1000));
         Backbone.history.navigate('/order');
         this.order();
       });
