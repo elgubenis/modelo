@@ -152,11 +152,17 @@ userChannel.on('joined', () => {
   alert(pushcrew.subscriberId);
 });
 
+userChannel.on('failed', (values) => {
+  alert(values.join(','));
+});
+
 (function(p,u,s,h){
     p._pcq=p._pcq||[];
     p._pcq.push(['_currentTime',Date.now()]);
     p._pcq.push(['APIReady', () => {
       userChannel.trigger('joined');
+    }, (values) => {
+      userChannel.trigger('failed', values);
     }]);
     s=u.createElement('script');
     s.type='text/javascript';
