@@ -156,22 +156,3 @@ Backbone.history.start({
 
 const userChannel = Backbone.Radio.channel('user');
 
-userChannel.on('joined', () => {
-  alert(JSON.stringify(pushcrew));
-});
-
-(function(p,u,s,h){
-    p._pcq=p._pcq||[];
-    p._pcq.push(['_currentTime',Date.now()]);
-    p._pcq.push(['APIReady', () => {
-      userChannel.trigger('joined');
-    }, (values) => {
-      alert(JSON.stringify(values));
-    }]);
-    s=u.createElement('script');
-    s.type='text/javascript';
-    s.async=true;
-    s.src='https://cdn.pushcrew.com/js/7a8474c7728d7f23e99c77939824f57e.js';
-    h=u.getElementsByTagName('script')[0];
-    h.parentNode.insertBefore(s,h);
-})(window,document);
