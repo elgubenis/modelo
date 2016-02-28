@@ -45,7 +45,7 @@ module.exports = function(router){
       order = {
         userId: body.userId,
         total: total,
-        articles:articles
+        articles: articles
       }
       return res.send(order)
       Orders.create(order)
@@ -59,7 +59,7 @@ module.exports = function(router){
           }
         }).then(function(){
             res.send(result);
-        })
+        });
       })
       .catch(function(err){
         res.status(500).send(err);
