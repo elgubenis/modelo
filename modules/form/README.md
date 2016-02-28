@@ -10,12 +10,26 @@ const LayoutView = Marionette.LayoutView.extend({
         },
       });
       var myObject={
-        checkCall: function(){
-          console.log('some message from callback');
-        }
-      };
-      const form-confirm = new Marionette.form(myObject);
+         text: 'Eres de edad?',
+         buttons: [
+           {
+             label: 'SI',
+             onClick: function() {
+               alert('SI');
+             }
+           },
+           {
+             label: 'NO',
+             onClick: function() {
+               alert('NO');
+             }
+           }
+         ]
+       };
+
+       
+      const directionView = new Marionette.Form(myObject);
       const layout = new LayoutView();
-      layout.getRegion('preview').show(form-confirm);
+      layout.getRegion('preview').show(directionView);
 
 ```

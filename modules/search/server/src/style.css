@@ -1,0 +1,23 @@
+/*@import 'header';
+
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #ff0000;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+*/
+.form-message-container-check {
+  display: flex;
+  padding-left: 30px;
+  padding-right: 30px; }
+
+.form-message-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+
+.form-message-button {
+  margin-left: 20px !important;
+  margin-right: 20px !important; }
