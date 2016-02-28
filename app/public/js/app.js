@@ -143,24 +143,24 @@ layout.getRegion('header').show(searchView);
 componentHandler.upgradeDom();
 
 const Order = Backbone.Model.extend({
-  urlRoot: 'http://localhost:1337/orders',
+  urlRoot: 'http://www.modelo.mobi:1337/orders',
   idAttribute: '_id'
 });
 
 const Awards = Backbone.Collection.extend({
   url: function(){
-    return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
+    return 'http://www.modelo.mobi:1337/users/'+user.get('_id')+'/awards';
   }
 });
 
 const Events = Backbone.Collection.extend({
   url: function(){
-    return 'http://localhost:1337/users/'+user.get('_id')+'/events';
+    return 'http://www.modelo.mobi:1337/users/'+user.get('_id')+'/events';
   }
 });
 
 const Promotion = Backbone.Model.extend({
-  urlRoot: 'http://localhost:1337/discounts/',
+  urlRoot: 'http://www.modelo.mobi:1337/discounts/',
   idAttribute: 'shortid'
 });
 
