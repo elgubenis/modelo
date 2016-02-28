@@ -6,7 +6,8 @@ const layoutTemplate = `
 #toast {
   position:absolute;
   top: 40%;
-  width: 100%;
+  left: 25px;
+  width: calc(100% - 100px);
   height: 80px;
 }
 #toast.active {
@@ -17,7 +18,7 @@ const layoutTemplate = `
   opacity: 1!important;
 }
 .show-total span {
-  font-size: 70px;
+  font-size: 50px;
 }
 </style>
 
