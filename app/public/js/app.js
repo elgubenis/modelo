@@ -180,16 +180,18 @@ const Router = Marionette.AppRouter.extend({
       $('.mdl-layout__drawer-button').css({ display: 'block' });
       const promotion = new Promotion({ shortid: _id });
       promotion.fetch().then(() => {
-        articles.discount = promotion.get('discount');
-        articles.start = new Date().getTime()/1000;
+        if (promotion.get('discount')) {
+          articles.discount = promotion.get('discount');
+          articles.start = new Date().getTime()/1000;
 
-        articles.end = articles.start+(20*1)
-        setTimeout(() => {
-          delete articles.discount;
-          delete articles.start;
-          delete articles.end;
-          articles.trigger('timeout');
-        }, (articles.end-articles.start)*1000);
+          articles.end = articles.start+(20*1)
+          setTimeout(() => {
+            delete articles.discount;
+            delete articles.start;
+            delete articles.end;
+            articles.trigger('timeout');
+          }, (articles.end-articles.start)*1000);
+        }
         Backbone.history.navigate('/order');
         this.order();
       });

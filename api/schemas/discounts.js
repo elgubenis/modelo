@@ -11,6 +11,10 @@ var discount = new Schema({
   },
   discount: {
     type: Number
+  },
+  start: {
+    type: Date,
+    default: Date.now
   }
 });
 

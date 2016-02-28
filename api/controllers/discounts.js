@@ -14,7 +14,13 @@ module.exports = function(router){
 
   router.route('/discounts/:shortid').get(function(req, res){
     Discounts.findOne({ shortId: req.params.shortid })
-    .then(function(result){
+    .then(function(result) {
+      result = result.toObject();
+      const now = new Date().getTime();
+      const old = new Date(result.start).getTime();
+      if ((now-old)/1000) > 20) {
+        result.discount = undefined;
+      }
       res.send(result);
     })
     .catch(function(err){
