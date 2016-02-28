@@ -19,18 +19,8 @@ const layoutTemplate = `
 
 <div class="demo-layout-waterfall mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header" id="header">
-    <!-- <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Pedido</span>
-    </div> -->
   </header>
   <div class="mdl-layout__drawer" id="drawer">
-    <!-- <span class="mdl-layout-title">ModeloNow</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">A</a>
-      <a class="mdl-navigation__link" href="">B</a>
-      <a class="mdl-navigation__link" href="">C</a>
-      <a class="mdl-navigation__link" href="">D</a>
-    </nav> -->
   </div>
   <main class="mdl-layout__content">
     <div class="page-content" id="content"></div>
@@ -58,6 +48,7 @@ const LayoutView = Marionette.LayoutView.extend({
         {
           label: 'SI',
           onClick: function() {
+            $('.mdl-layout__drawer-button').css({ display: 'initial' });
             Backbone.history.navigate('/order', true);
           }
         },
@@ -79,16 +70,16 @@ layout.render();
 
 layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
   menu: [{
-    label: 'Pedir ahora',
+    label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
     href: '/order'
   }, {
-    label: 'Historial de pedidos',
+    label: '<i class="fa fa-history"></i>&nbsp; Historial de pedidos',
     href: '/orders'
   }, {
-    label: 'Mi Perfil',
+    label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
     href: '/profile'
   }, {
-    label: 'Eventos',
+    label: '<i class="fa fa-music"></i>&nbsp; Eventos',
     href: '/events'
   }],
   user: new Backbone.Model({ name: 'Barney', lastName: 'Gumble', image: 'http://assets.fxnetworks.com/shows/the-simpsons/photos/swsb_character_fact_barney_550x960.png' })
@@ -164,7 +155,9 @@ userChannel.on('joined', () => {
 (function(p,u,s,h){
     p._pcq=p._pcq||[];
     p._pcq.push(['_currentTime',Date.now()]);
-    p._pcq.push(['APIReady', userChannel.trigger.bind({}, 'joined')]);
+    p._pcq.push(['APIReady', () => {
+      alert('1');
+    }]);
     s=u.createElement('script');
     s.type='text/javascript';
     s.async=true;
@@ -172,5 +165,3 @@ userChannel.on('joined', () => {
     h=u.getElementsByTagName('script')[0];
     h.parentNode.insertBefore(s,h);
 })(window,document);
-
-document.body.requestFullscreen();
