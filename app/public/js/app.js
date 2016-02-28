@@ -227,6 +227,7 @@ const Router = Marionette.AppRouter.extend({
     },
     orders() {
       const Orders = Backbone.Collection.extend({
+        comparator: 'created_at',
         url: `http://www.modelo.mobi:1337/users/${user.get('_id')}/orders`
       });
       const collection = new Orders();
