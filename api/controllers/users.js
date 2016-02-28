@@ -87,15 +87,15 @@ module.exports = function(router){
     });
   });
 
-  router.route('/users/:_id').put(function(req, res){
-    Users.findByIdAndUpdate(req.params._id, req.body, { new: true })
-    .then(function(result){
-      res.send(result);
-    })
-    .catch(function(err){
-      res.status(500).send(err);
-    });
-  });
+  // router.route('/users/:_id').put(function(req, res){
+  //   Users.findByIdAndUpdate(req.params._id, req.body, { new: true })
+  //   .then(function(result){
+  //     res.send(result);
+  //   })
+  //   .catch(function(err){
+  //     res.status(500).send(err);
+  //   });
+  // });
 
   router.route('/users/:_id').delete(function(req, res){
     Users.findByIdAndRemove(req.params._id)
