@@ -23,10 +23,11 @@ app.use(function(req, res, next) {
 var router = express.Router();
 app.use(router)
 // == endpoints ==
-var articles = require('./controllers/articles')(router);
-var orders   = require('./controllers/orders')(router);
-var users   = require('./controllers/users')(router);
+require('./controllers/articles')(router);
+require('./controllers/orders')(router);
+require('./controllers/users')(router);
 require('./controllers/trigger')(router);
+require('./controllers/near_location')(router);
 // listen server
 var server = app.listen(app.get('port'), function(err){
   if(!err){

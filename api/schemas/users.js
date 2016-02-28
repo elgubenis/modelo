@@ -13,8 +13,10 @@ var user = new Schema({
     type: String,
     required: true
   },
-  lat: { type: Number },
-  long: { type: Number },
+  location: { 
+    type: [ Number ],
+    index: '2d'
+  },
   orders: [],
   liters: {
     type: Number
