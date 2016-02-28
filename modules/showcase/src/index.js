@@ -3,5 +3,8 @@ var Article = require('./article/index.js');
 
 Marionette.ArticleList = Marionette.CollectionView.extend({
   className: 'mdl-grid',
-  childView: Article
+  childView: Article,
+  collectionEvents: {
+    'timeout': 'render'
+  }
 });

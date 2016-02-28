@@ -9,8 +9,11 @@ var Article = Marionette.ItemView.extend({
   	'change:quantity': 'renderCurrentPrice'
   },
   initialize: function() {
-  	var quantity = 0;
-  	this.model.set('quantity', quantity);
+    var currenyQuantity = this.model.get('quantity');
+    if (currenyQuantity===null || currenyQuantity === undefined){
+  	  var quantity = 0;
+  	  this.model.set('quantity', quantity);
+    }
   	this.setPrice()
   },
   setPrice: function() {
