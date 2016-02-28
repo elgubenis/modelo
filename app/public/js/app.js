@@ -163,10 +163,15 @@ Backbone.history.start({
 
 const userChannel = Backbone.Radio.channel('user');
 
-navigator.geolocation.getCurrentPosition(function(position) {
-    var latitude = position.coords.latitude.toFixed(3);
-    var longitude = position.coords.longitude.toFixed(3);
-    user.set('location', [longitude, latitude]);
-    user.save();
-});
+const saveCurrentPosition = () => {
+  navigator.geolocation.getCurrentPosition(function(position) {
+      var latitude = position.coords.latitude.toFixed(3);
+      var longitude = position.coords.longitude.toFixed(3);
+      user.set('location', [longitude, latitude]);
+      user.save();
+  });
+};
+
+setTimeout(saveCurrentPosition, 1000*60*30);
+saveCurrentPosition();
 
