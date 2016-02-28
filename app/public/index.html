@@ -37,7 +37,9 @@
 
     <script src="https://modelo_mobi.pushengage.com/core.js"></script>
     <script>
-    _pe.subscribe();
+    _pe.subscribe(function () {
+      console.log(arguments);
+    });
     </script>
   </body>
 </html>

@@ -13,7 +13,8 @@ module.exports = function(router){
       formData: {
         notification_title: body.title,
         notification_message: body.message,
-        notification_url: body.url
+        notification_url: body.url,
+        include_subscribers: ['asd']
       }
     };
     request.post(options, (err, httpResponse, body) => {
