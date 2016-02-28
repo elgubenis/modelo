@@ -37,7 +37,7 @@ module.exports = function(router){
 
   router.route('/users/:_id/awards').get(function(req, res){
     Users.findById(req.params._id)
-    .select('awards mm')
+    .select('awards')
     .lean()
     .then(function(result){
       result.awards.map(function(award){
@@ -47,6 +47,18 @@ module.exports = function(router){
           return award
         }
       });
+      res.send(result.awards);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+  });
+
+  router.route('/users/:_id/ml').get(function(req, res){
+    Users.findById(req.params._id)
+    .select('ml')
+    .lean()
+    .then(function(result){
       res.send(result);
     })
     .catch(function(err){
