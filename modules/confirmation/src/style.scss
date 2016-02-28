@@ -1,13 +1,18 @@
-.demo-card-wide.mdl-card {
+.cv-demo-card-wide.mdl-card {
   width: 100%;
 }
-.demo-card-wide > .mdl-card__title {
+.cv-demo-card-wide > .mdl-card__title {
+  height: 260px;
   color: #fff;
-  height: 196px;
   background: url('http://periodicocorreo.com.mx/wp-content/uploads/2014/09/corona1.jpg') center / cover;
 }
-.demo-card-wide > .mdl-card__menu {
+.cv-demo-card-wide > .mdl-card__menu {
   color: #fff;
+}
+
+.cv-text {
+  font-weight: 500 !important;
+  padding: 0.8em !important;
 }
 
 $twitter: #00acee;

@@ -16,7 +16,7 @@
       this.render();
     },
   });
-  const confirmationView = new Marionette.Modelo.ConfirmationView({});
+  const confirmationView = new Marionette.Modelo.ConfirmationView({code: 'http://modelo.mobi/yy3456'});
   const layout = new LayoutView();
   layout.getRegion('preview').show(confirmationView);
 </script>

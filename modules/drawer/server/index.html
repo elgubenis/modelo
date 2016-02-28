@@ -49,9 +49,11 @@
         menu: [
         { label: 'Usuario', href: 'user' },
         { label: 'Pedidos', href:'orders' },
-        { label: '<h3>hola</h3>', href: 'events'},
+        { label: 'Eventos', href: 'events'},
         ],
         user: user,
+        mlLink: '/mililiters',
+        full: true,
       });
       const layout = new LayoutView();
       layout.getRegion('preview').show(drawerView);

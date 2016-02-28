@@ -4,8 +4,6 @@
 Marionette.Modelo = Marionette.Modelo || {};
 
 import template from './template.hbs';
-// import ButtonCollectionView from './collection.js';
-// import PrimaryButton from './primary.js';
 
 Marionette.Modelo.Button = Marionette.LayoutView.extend({
   template,
