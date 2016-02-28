@@ -26,6 +26,11 @@ const layoutTemplate = `
 .show-total span {
   font-size: 50px;
 }
+
+#footer {
+  max-height: 200px;
+  background-color:rgba(255, 255, 255, 0.7);
+}
 </style>
 
 <div class="demo-layout-waterfall mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -191,6 +196,7 @@ const Router = Marionette.AppRouter.extend({
 
     },
     achievments() {
+      layout.getRegion('cart').empty();
       var awardsList = new Awards();
       awardsList.fetch();
       var awards = new Marionette.Awards({
@@ -206,12 +212,13 @@ const Router = Marionette.AppRouter.extend({
     },
     ticket() {
       var self = this;
+      layout.getRegion('cart').empty();
       layout.getRegion('content').empty();
       layout.getRegion('cart').empty();
       var directionView = new Marionette.DirectionView({
         model: new Backbone.Model(),
         onClick() {
-          order = new Order({
+          var order = new Order({
             articles: self.articles.toJSON(),
             userId: user.get('_id'),
             direction: this.model.get('direction')
