@@ -182,6 +182,7 @@ const Router = Marionette.AppRouter.extend({
         articles.discount = promotion.get('discount');
         articles.start = new Date();
         Backbone.history.navigate('/order');
+        this.order();
       });
     },
     order() {
