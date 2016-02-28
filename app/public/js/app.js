@@ -105,7 +105,9 @@ const Router = Marionette.AppRouter.extend({
     },
   },
   onRoute: function () {
-    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+    if (document.body.querySelector('.mdl-layout__obfuscator.is-visible')) {
+      document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+    }
   }
 });
 
@@ -119,3 +121,14 @@ Backbone.Intercept.start();
 Backbone.history.start({
   pushState: true
 });
+
+(function(p,u,s,h){
+    p._pcq=p._pcq||[];
+    p._pcq.push(['_currentTime',Date.now()]);
+    s=u.createElement('script');
+    s.type='text/javascript';
+    s.async=true;
+    s.src='https://cdn.pushcrew.com/js/7a8474c7728d7f23e99c77939824f57e.js';
+    h=u.getElementsByTagName('script')[0];
+    h.parentNode.insertBefore(s,h);
+})(window,document);
