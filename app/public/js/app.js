@@ -183,7 +183,7 @@ const Router = Marionette.AppRouter.extend({
         articles.discount = promotion.get('discount');
         articles.start = new Date().getTime()/1000;
 
-        articles.end = articles.start+(60*1)
+        articles.end = articles.start+(20*1)
         setTimeout(() => {
           articles.trigger('timeout');
         }, (articles.end-articles.start)*1000);
