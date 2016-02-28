@@ -134,7 +134,7 @@
       var myObject={
         collection: new Backbone.Collection(articlesToBuy)
       };
-
+      myObject.collection.discount = 10;
       const ticketView = new Marionette.Ticket(myObject);
       const layout = new LayoutView();
       layout.getRegion('preview').show(ticketView);
