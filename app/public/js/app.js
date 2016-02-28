@@ -77,7 +77,7 @@ const LayoutView = Marionette.LayoutView.extend({
         {
           label: 'SI',
           onClick: function() {
-            $('.mdl-layout__drawer-button').css({ display: 'initial' });
+            $('.mdl-layout__drawer-button').css({ display: 'block' });
             Backbone.history.navigate('/order', true);
           }
         },
@@ -121,6 +121,10 @@ user.fetch().then(() => {
   }));
 });
 //layout.getRegion('header').show(new Marionette.form());
+var articles = new Articles();
+const searchView = new Marionette.Search({ collection: articles });
+layout.getRegion('header').show(searchView);
+componentHandler.upgradeDom();
 
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
@@ -132,19 +136,16 @@ const Router = Marionette.AppRouter.extend({
   controller: {
     order() {
       var self = this;
-      var articles = new Articles();
       this.articles = articles;
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
       this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
         articles.listenTo(articles, 'change', self._showTotalDebounce);
       });
-      const searchView = new Marionette.Search({ collection: articles });
-      layout.getRegion('header').show(searchView);
+
       layout.getRegion('content').show(new Marionette.ArticleList({
         collection: articles
       }));
-      componentHandler.upgradeAllRegistered();
     },
     orders() {
 
