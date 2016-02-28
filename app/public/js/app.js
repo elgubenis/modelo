@@ -3,6 +3,18 @@ const layoutTemplate = `
 .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
   padding-right: 0;
 }
+#toast {
+  position:absolute;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
+#toast.active {
+  z-index: 100;
+}
+.show-total span {
+  font-size: 70px;
+}
 </style>
 
 <div class="demo-layout-waterfall mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -23,6 +35,7 @@ const layoutTemplate = `
   <main class="mdl-layout__content">
     <div class="page-content" id="content"></div>
   </main>
+  <div id="toast"> </div>
 </div>`;
 
 const Articles = Backbone.Collection.extend({
@@ -35,7 +48,8 @@ const LayoutView = Marionette.LayoutView.extend({
   regions: {
     header: '#header',
     drawer: '#drawer',
-    content: '#content'
+    content: '#content',
+    toast: '#toast'
   },
   onRender() {
     this.getRegion('content').show(new Marionette.Form({
@@ -91,7 +105,11 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     order() {
-      articles.fetch();
+      var self = this;
+      this._showTotal = _.debounce(this._showTotal, 500);
+      articles.fetch().done(function(){
+        articles.listenTo(articles, 'change', self._showTotal);
+      });
       layout.getRegion('content').show(new Marionette.ArticleList({ collection: articles }))
     },
     orders() {
@@ -103,6 +121,21 @@ const Router = Marionette.AppRouter.extend({
     profile() {
 
     },
+    _showTotal: function() {
+      var total = 0;
+      articles.each(function(article){
+        total+= parseFloat(article.get('currentPrice'));
+      });
+      total = total.toFixed(2);
+      var showTotal = new Marionette.ShowTotal({
+        total: total
+      });
+      layout.getRegion('toast').show(showTotal);
+      $('#toast').addClass('active');
+      setTimeout(function(){
+        $('#toast').removeClass('active');
+      }, 1600);
+    }
   },
   onRoute: function () {
     if (document.body.querySelector('.mdl-layout__obfuscator.is-visible')) {
