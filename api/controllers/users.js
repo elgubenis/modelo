@@ -1,4 +1,4 @@
-var Users = require('../schemas/users');
+const Users = require('../schemas/users');
 const request = require('request');
 
 module.exports = function(router){
@@ -16,6 +16,17 @@ module.exports = function(router){
   router.route('/users/:_id').get(function(req, res){
     Users.findById(req.params._id)
     .select('name lastName image')
+    .then(function(result){
+      res.send(result);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+  });
+
+  router.route('/users/:_id/events').get(function(req, res){
+    Users.findById(req.params._id)
+    .select('events')
     .then(function(result){
       res.send(result);
     })

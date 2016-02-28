@@ -17,6 +17,7 @@
     "@modelo/direction": "^1.0.0",
     "@modelo/drawer": "^1.0.0",
     "@modelo/form": "^1.0.1",
+    "@modelo/search": "^1.0.0",
     "@modelo/show-total": "^1.0.0",
     "backbone": "^1.2.3",
     "backbone.intercept": "^0.4.2",

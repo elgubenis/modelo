@@ -1,6 +1,6 @@
-Orders   = require('../schemas/orders');
-Articles = require('../schemas/articles');
-Users    = require('../schemas/users');
+const Orders   = require('../schemas/orders');
+const Articles = require('../schemas/articles');
+const Users    = require('../schemas/users');
 
 module.exports = function(router){
 

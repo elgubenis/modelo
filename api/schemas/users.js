@@ -24,7 +24,18 @@ var user = new Schema({
     index: '2d'
   },
   orders: [],
-  awards: {}
+  awards: [{
+    name: { 
+      type: String
+    },
+    icon: { 
+      type: String
+    },
+    hasAward: { 
+      type: Boolean
+    }
+  }],
+  events: []
 });
 
 user.plugin(timestamps);
