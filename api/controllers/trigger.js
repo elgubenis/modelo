@@ -14,7 +14,6 @@ module.exports = function(router){
         notification_title: body.title,
         notification_message: body.message,
         notification_url: body.url,
-        include_segments: ['A'],
       }
     };
     request.post(options, (err, httpResponse, body) => {

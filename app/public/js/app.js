@@ -79,7 +79,7 @@ const User = Backbone.Model.extend({
 
 const user = new User({ _id: '56d28dabb23bf0423c8e12a9' });
 user.fetch().then(() => {
-  _pe.subscribe(user.get('_id'));
+  _pe.subscribe();
   layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
     menu: [{
       label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
