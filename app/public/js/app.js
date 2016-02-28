@@ -174,6 +174,7 @@ const Router = Marionette.AppRouter.extend({
       layout.getRegion('footer').empty();
       var self = this;
       this.articles = articles;
+      this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
       this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
@@ -227,9 +228,13 @@ const Router = Marionette.AppRouter.extend({
     },
     ticket() {
       var self = this;
+      this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       layout.getRegion('cart').empty();
-      layout.getRegion('content').empty();
       layout.getRegion('cart').empty();
+      var ticketView = new Marionette.Ticket({
+        collection: this.articles
+      });
+      layout.getRegion('content').show(ticketView);
       var directionView = new Marionette.DirectionView({
         model: new Backbone.Model(),
         onClick() {
