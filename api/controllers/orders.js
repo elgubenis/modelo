@@ -15,10 +15,22 @@ module.exports = function(router){
 
   router.route('/orders').post(function(req, res){
     body = req.body;
-    Articles.find({ '_id': { $in: req.body.articles } }).then(function(articles){
+    articleIds = [];
+    body.articles.map(function(article){
+      articleIds.push(article._id)
+    });
+
+    Articles.find({ '_id': { $in: articleIds } })
+    .lean()
+    .then(function(articles){
       var total = 0;
-      articles.map(function(article){
-        total += article.price
+      articles.map(function(articlePrice){
+        body.articles.map(function(articleQuantity){
+          if(articlePrice._id == articleQuantity._id){
+            total += articlePrice.price * articleQuantity.quantity
+            return articlePrice.quantity = articleQuantity.quantity
+          }
+        })
       });
 
       order = {
@@ -29,7 +41,7 @@ module.exports = function(router){
 
       Orders.create(order)
       .then(function(order){
-        // TODO save in user order_id
+        // TODO save
         res.send(order);
       })
       .catch(function(err){
