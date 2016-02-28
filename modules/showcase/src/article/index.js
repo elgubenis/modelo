@@ -9,6 +9,7 @@ var Article = Marionette.ItemView.extend({
   	'change:quantity': 'renderCurrentPrice'
   },
   initialize: function() {
+    console.log(this.model.collection);
     var currenyQuantity = this.model.get('quantity');
     if (currenyQuantity===null || currenyQuantity === undefined){
   	  var quantity = 0;
@@ -22,6 +23,9 @@ var Article = Marionette.ItemView.extend({
     var discount = this.model.collection.discount;
     if (discount!==null && discount!==undefined) {
       price -= (price*discount)/100;
+      this.model.set('discount', discount);
+    } else {
+      this.model.unset('discount');
     }
   	var currentPrice = (price * quantity).toFixed(2);
   	this.model.set('currentPrice', currentPrice);
