@@ -149,11 +149,7 @@ Backbone.history.start({
 const userChannel = Backbone.Radio.channel('user');
 
 userChannel.on('joined', () => {
-  alert(pushcrew.subscriberId);
-});
-
-userChannel.on('failed', (values) => {
-  alert(values.join(','));
+  alert(JSON.stringify(pushcrew));
 });
 
 (function(p,u,s,h){
@@ -162,7 +158,7 @@ userChannel.on('failed', (values) => {
     p._pcq.push(['APIReady', () => {
       userChannel.trigger('joined');
     }, (values) => {
-      userChannel.trigger('failed', values);
+      alert(JSON.stringify(values));
     }]);
     s=u.createElement('script');
     s.type='text/javascript';
