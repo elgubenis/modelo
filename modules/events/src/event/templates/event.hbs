@@ -1,8 +1,10 @@
 <div class="demo-card-wide mdl-shadow--2dp" >
   <div class="mdl-card__title event-header" style="background: url('{{image}}') center/cover;">
     <h2 class="mdl-card__title-text">{{name}}</h2>
+    {{#if discount}}
     <div class="mdl-card__title-text event-discount-background"></div>
     <div class="mdl-card__title-text event-discount">{{discount}}%</div>
+    {{/if}}
   </div>
   <div class="mdl-card__supporting-text event-description">
     <span class="description">{{description}}</span>
