@@ -36,7 +36,9 @@ const layoutTemplate = `
   <main class="mdl-layout__content">
     <div class="page-content" id="content"></div>
   </main>
-  <div id="toast"> </div>
+  <footer id="footer"></footer>
+  <div id="toast"></div>
+  <div id="cart"></div>
 </div>`;
 
 const Articles = Backbone.Collection.extend({
@@ -72,7 +74,9 @@ const LayoutView = Marionette.LayoutView.extend({
     header: '#header',
     drawer: '#drawer',
     content: '#content',
-    toast: '#toast'
+    footer: '#footer',
+    toast: '#toast',
+    cart: '#cart'
   },
   onRender() {
     this.getRegion('content').show(new Marionette.Form({
@@ -118,8 +122,8 @@ user.fetch().then(() => {
       label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
       href: '/profile'
     }, {
-      label: '<i class="fa fa-beer"></i>&nbsp; Mis Mililitros',
-      href: '/profile'
+      label: '<i class="fa fa-beer"></i>&nbsp; Logros',
+      href: '/achievments'
     }, {
       label: '<i class="fa fa-music"></i>&nbsp; Eventos',
       href: '/events'
@@ -133,15 +137,29 @@ const searchView = new Marionette.Search({ collection: articles });
 layout.getRegion('header').show(searchView);
 componentHandler.upgradeDom();
 
+const Order = Backbone.Model.extend({
+  urlRoot: 'http://localhost:1337/orders',
+  idAttribute: '_id'
+});
+
+const Awards = Backbone.Collection.extend({
+  url: function(){
+    return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
+  }
+});
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
     'orders': 'orders',
     'events': 'events',
-    'profile': 'profile'
+    'profile': 'profile',
+    'ticket': 'ticket',
+    'confirmation': 'confirmation',
+    'achievments': 'achievments'
   },
   controller: {
     order() {
+      layout.getRegion('footer').empty();
       var self = this;
       this.articles = articles;
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
@@ -152,7 +170,16 @@ const Router = Marionette.AppRouter.extend({
 
       layout.getRegion('content').show(new Marionette.ArticleList({
         collection: articles
-      }));
+      }))
+      var buttonView = new Marionette.Modelo.Button({
+        addOrder() {
+          Backbone.history.navigate('/ticket', true);
+        },
+        addSchedule() {
+          console.log('):');
+        },
+      });
+      layout.getRegion('cart').show(buttonView);
     },
     orders() {
 
@@ -162,6 +189,39 @@ const Router = Marionette.AppRouter.extend({
     },
     profile() {
 
+    },
+    achievments() {
+      var awardsList = new Awards();
+      awardsList.fetch();
+      var awards = new Marionette.Awards({
+        collection: awardsList
+      });
+      layout.getRegion('content').empty();
+      layout.getRegion('footer').show(awards);
+    },
+    confirmation() {
+      var confirmationView = new Marionette.Modelo.ConfirmationView({});
+      layout.getRegion('footer').empty();
+      layout.getRegion('content').show(confirmationView);
+    },
+    ticket() {
+      var self = this;
+      layout.getRegion('content').empty();
+      layout.getRegion('cart').empty();
+      var directionView = new Marionette.DirectionView({
+        model: new Backbone.Model(),
+        onClick() {
+          order = new Order({
+            articles: self.articles.toJSON(),
+            userId: user.get('_id'),
+            direction: this.model.get('direction')
+          });
+          order.save().done(function(){
+            Backbone.history.navigate('/confirmation', true);
+          })
+        }
+      });
+      layout.getRegion('footer').show(directionView);
     },
     _showTotal: function() {
       console.log('show total');
