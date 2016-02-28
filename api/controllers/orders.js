@@ -18,9 +18,13 @@ module.exports = function(router){
     body = req.body;
     articleIds = [];
     body.articles.map(function(article){
-      articleIds.push(article._id)
+      if (article.quantity > 0) {
+        articleIds.push(article._id)
+      };
     });
-
+    if (articleIds.length == 0) {
+      return res.send({})
+    };
     Articles.find({ '_id': { $in: articleIds } })
     .lean()
     .then(function(articles){
