@@ -1,37 +1,27 @@
 ```javascript
-	const LayoutView = Marionette.LayoutView.extend({
-	template: false,
-	el: 'body',
-	regions: {
-	  preview: '#module'
-	},
-	initialize() {
-	  this.render();
-	},
-	});
-
 	const layout = new LayoutView();
-	articleList = [
+	eventList = [
 	{
-	  name: 'Corona',
-	  description: '4.9%',
-	  price: 2.05,
-	  stars: 4.9,
-	  quantity: 0,
-	  image: 'http://vignette4.wikia.nocookie.net/beer/images/6/6b/Corona.jpg/revision/latest?cb=20130322234121'
+	  name: 'Formula 1',
+	  description: 'Evento sobre la Formula1',
+	  discount: 50,
+	  image: 'http://formula1.autobild.es/sites/formula1.autobild.es/files/f1_mexico_cartel.png'
 	},
 	{
-	  name: 'Victoria',
-	  description: '4.9%',
-	  price: 2.05,
-	  stars: 4.5,
-	  quantity: 0,
-	  image: 'http://www.tragos-tragos.com/wp-content/uploads/2012/09/cerveza-victoria.jpg'
+	  name: 'White noise',
+	  description: 'Evento Beerhouse',
+	  discount: 5,
+	  image: 'http://www.beerhouse.co.za/wp-content/uploads/2014/04/BH-Silent-Disco-4-LOGOS-only-V2-Logo-colour-shadows.jpg'
+	},
+	{
+	  name: 'White noise',
+	  description: 'Evento Beerhouse',
+	  image: 'http://beerhouseia.com/wp-content/uploads/2016/01/Beerhouse-Logo-Dark.jpg'
 	}
 	];
-	const collection = new Backbone.Collection(articleList);
-	const articleListView = new Marionette.ArticleList({
+	const collection = new Backbone.Collection(eventList);
+	const eventsListView = new Marionette.EventsList({
 	collection: collection
 	});
-	layout.getRegion('preview').show(articleListView);
-``
+	layout.getRegion('preview').show(eventsListView);
+```
