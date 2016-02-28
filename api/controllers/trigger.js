@@ -14,7 +14,7 @@ module.exports = function(router){
       formData: {
         notification_title: 'Pide Chelas con descuento, solo ahora.',
         notification_message: 'Cerca de ti ya estan celebrando, unete ahora y ahorra.',
-        notification_url: 'URL',
+        notification_url: 'http://www.modelo.mobi:8081/code/xuyxjxjx',
       }
     };
     request.post(options, (err, httpResponse, body) => {

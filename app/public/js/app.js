@@ -109,13 +109,16 @@ const user = new User({ _id: '56d28dabb23bf0423c8e12a9' });
 user.fetch().then(() => {
   layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
     menu: [{
-      label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
+      label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir Ahora!',
       href: '/order'
     }, {
-      label: '<i class="fa fa-history"></i>&nbsp; Historial de pedidos',
+      label: '<i class="fa fa-history"></i>&nbsp; Historial de Pedidos',
       href: '/orders'
     }, {
       label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
+      href: '/profile'
+    }, {
+      label: '<i class="fa fa-beer"></i>&nbsp; Mis Mililitros',
       href: '/profile'
     }, {
       label: '<i class="fa fa-music"></i>&nbsp; Eventos',
