@@ -1,3 +1,9 @@
+'use strict';
+
+if (document.location.pathname != '/') {
+  document.location.href = '/';
+}
+
 const layoutTemplate = `
 <style>
 .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
@@ -34,7 +40,29 @@ const layoutTemplate = `
 </div>`;
 
 const Articles = Backbone.Collection.extend({
-  url: 'http://www.modelo.mobi:1337/articles'
+  url: 'http://www.modelo.mobi:1337/articles',
+  initialize() {
+    this.listenTo(this, 'search', (query) => {
+      this.byQuery(query);
+    });
+  },
+  byQuery(query) {
+    if (query) {
+      query = query.toLowerCase();
+    }
+    if (!this.original) {
+      this.original = new Articles(this.models);
+    }
+    const filtered = this.original.filter((item) => {
+      let name = item.get('name');
+      if (name) {
+        name = name.toLowerCase();
+      }
+      return name.indexOf(query) > -1
+    });
+    this.reset(filtered);
+    this.trigger('searched');
+  }
 });
 
 const LayoutView = Marionette.LayoutView.extend({
@@ -53,7 +81,7 @@ const LayoutView = Marionette.LayoutView.extend({
         {
           label: 'SI',
           onClick: function() {
-            $('.mdl-layout__drawer-button').css({ display: 'initial' });
+            $('.mdl-layout__drawer-button').css({ display: 'block' });
             Backbone.history.navigate('/order', true);
           }
         },
@@ -97,6 +125,10 @@ user.fetch().then(() => {
   }));
 });
 //layout.getRegion('header').show(new Marionette.form());
+var articles = new Articles();
+const searchView = new Marionette.Search({ collection: articles });
+layout.getRegion('header').show(searchView);
+componentHandler.upgradeDom();
 
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
@@ -108,16 +140,16 @@ const Router = Marionette.AppRouter.extend({
   controller: {
     order() {
       var self = this;
-      var articles = new Articles();
-      this.articles = articles
+      this.articles = articles;
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
       this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
         articles.listenTo(articles, 'change', self._showTotalDebounce);
       });
-      layout.getRegion('content').show(new Marionette.ArticleList({ 
+
+      layout.getRegion('content').show(new Marionette.ArticleList({
         collection: articles
-      }))
+      }));
     },
     orders() {
 
@@ -153,10 +185,6 @@ const Router = Marionette.AppRouter.extend({
     }
   }
 });
-
-if (document.location.pathname != '/') {
-  document.location.href = '/';
-}
 
 new Router();
 
