@@ -3,7 +3,7 @@ var express    = require('express'),
     app        = express(),
     bodyParser = require('body-parser'),
     config     = require('./config'),
-    corser = require('corser'),
+    corser     = require('corser'),
     mongoose   = require('mongoose');
 // connect database
 mongoose.connect(config.db.database);
@@ -38,6 +38,7 @@ require('./controllers/orders')(router);
 require('./controllers/users')(router);
 require('./controllers/trigger')(router);
 require('./controllers/near_location')(router);
+require('./controllers/discounts')(router);
 // listen server
 var server = app.listen(app.get('port'), function(err){
   if(!err){

@@ -1,4 +1,4 @@
-Users = require('../schemas/users');
+const Users = require('../schemas/users');
 
 module.exports = function(router){
 

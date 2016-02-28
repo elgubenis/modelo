@@ -1,4 +1,4 @@
-var Users = require('../schemas/users');
+const Users = require('../schemas/users');
 const request = require('request');
 
 module.exports = function(router){
