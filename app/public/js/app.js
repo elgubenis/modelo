@@ -72,23 +72,30 @@ const layout = new LayoutView();
 
 layout.render();
 
+const User = Backbone.Model.extend({
+  urlRoot: 'http://modelo.mobi:1337/users',
+  idAttribute: '_id',
+});
 
-layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
-  menu: [{
-    label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
-    href: '/order'
-  }, {
-    label: '<i class="fa fa-history"></i>&nbsp; Historial de pedidos',
-    href: '/orders'
-  }, {
-    label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
-    href: '/profile'
-  }, {
-    label: '<i class="fa fa-music"></i>&nbsp; Eventos',
-    href: '/events'
-  }],
-  user: new Backbone.Model({ name: 'Barney', lastName: 'Gumble', image: 'http://assets.fxnetworks.com/shows/the-simpsons/photos/swsb_character_fact_barney_550x960.png' })
-}));
+const user = new User({ _id: '56d28ac18047e98039b1aa3e' });
+user.fetch().then(() => {
+  layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
+    menu: [{
+      label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
+      href: '/order'
+    }, {
+      label: '<i class="fa fa-history"></i>&nbsp; Historial de pedidos',
+      href: '/orders'
+    }, {
+      label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
+      href: '/profile'
+    }, {
+      label: '<i class="fa fa-music"></i>&nbsp; Eventos',
+      href: '/events'
+    }],
+    user: user
+  }));
+});
 //layout.getRegion('header').show(new Marionette.form());
 
 const articles = new Articles();
@@ -155,4 +162,10 @@ Backbone.history.start({
 });
 
 const userChannel = Backbone.Radio.channel('user');
+
+navigator.geolocation.getCurrentPosition(function(position) {
+    var latitude = position.coords.latitude.toFixed(3);
+    var longitude = position.coords.longitude.toFixed(3);
+    _pe.subscribe(longitude+','+latitude);
+});
 
