@@ -39,6 +39,7 @@ require('./controllers/users')(router);
 require('./controllers/trigger')(router);
 require('./controllers/near_location')(router);
 require('./controllers/discounts')(router);
+require('./controllers/awards')(router);
 // listen server
 var server = app.listen(app.get('port'), function(err){
   if(!err){
