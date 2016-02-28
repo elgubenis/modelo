@@ -11,7 +11,7 @@ module.exports = function(router){
       res.status(500).send(err);
     });
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 
   router.route('/articles/:_id').get(function(req, res){
@@ -23,7 +23,7 @@ module.exports = function(router){
       res.status(500).send(err);
     });
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 
   router.route('/articles').post(function(req, res){
@@ -35,7 +35,7 @@ module.exports = function(router){
       res.status(500).send(err);
     });
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 
   router.route('/articles/:_id').put(function(req, res){
@@ -47,7 +47,7 @@ module.exports = function(router){
       res.status(500).send(err);
     });
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 
   router.route('/articles/:_id').delete(function(req, res){
@@ -59,7 +59,7 @@ module.exports = function(router){
       res.status(500).send(err);
     });
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 
 }

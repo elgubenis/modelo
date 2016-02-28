@@ -18,6 +18,6 @@ module.exports = function(router){
       res.status(500).send(err);
     })
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 }

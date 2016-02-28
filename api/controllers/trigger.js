@@ -23,6 +23,6 @@ module.exports = function(router){
       res.send(body);
     });
   }).options(function(req, res){
-    res.send()
+    res.status(200)
   });
 }
