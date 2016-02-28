@@ -1,6 +1,6 @@
 'use strict';
 
-if (document.location.pathname != '/') {
+if (document.location.pathname != '/' && document.location.pathname.indexOf('code') === -1) {
   document.location.href = '/';
 }
 
@@ -29,7 +29,7 @@ const layoutTemplate = `
 
 #footer {
   max-height: 200px;
-  background-color:rgba(255, 255, 255, 0.7);
+  background-color:rgba(255, 255, 255, 1);
 }
 </style>
 
@@ -143,20 +143,25 @@ layout.getRegion('header').show(searchView);
 componentHandler.upgradeDom();
 
 const Order = Backbone.Model.extend({
-  urlRoot: 'http://localhost:1337/orders',
+  urlRoot: 'http://www.modelo.mobi:1337/orders',
   idAttribute: '_id'
 });
 
 const Awards = Backbone.Collection.extend({
   url: function(){
-    return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
+    return 'http://www.modelo.mobi:1337/users/'+user.get('_id')+'/awards';
   }
 });
 
 const Events = Backbone.Collection.extend({
   url: function(){
-    return 'http://localhost:1337/users/'+user.get('_id')+'/events';
+    return 'http://www.modelo.mobi:1337/users/'+user.get('_id')+'/events';
   }
+});
+
+const Promotion = Backbone.Model.extend({
+  urlRoot: 'http://www.modelo.mobi:1337/discounts/',
+  idAttribute: 'shortid'
 });
 
 const Router = Marionette.AppRouter.extend({
@@ -167,9 +172,20 @@ const Router = Marionette.AppRouter.extend({
     'profile': 'profile',
     'ticket': 'ticket',
     'confirmation': 'confirmation',
-    'achievments': 'achievments'
+    'achievments': 'achievments',
+    'code/:_id': 'code'
   },
   controller: {
+    code(_id) {
+      $('.mdl-layout__drawer-button').css({ display: 'block' });
+      const promotion = new Promotion({ shortid: _id });
+      promotion.fetch().then(() => {
+        articles.discount = promotion.get('discount');
+        articles.start = new Date();
+        Backbone.history.navigate('/order');
+        this.order();
+      });
+    },
     order() {
       layout.getRegion('footer').empty();
       var self = this;

@@ -12,8 +12,8 @@ module.exports = function(router){
     });
   });
 
-  router.route('/discounts/:_id').get(function(req, res){
-    Discounts.findById(req.params._id)
+  router.route('/discounts/:shortid').get(function(req, res){
+    Discounts.findOne({ shortId: req.params.shortid })
     .then(function(result){
       res.send(result);
     })
