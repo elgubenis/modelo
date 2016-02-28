@@ -2,6 +2,10 @@
 <div class="demo-card-wide mdl-shadow--2dp" >
   <div class="mdl-card__title article-header" style="background: url('{{image}}') center/cover;">
     <h2 class="mdl-card__title-text">{{name}}</h2>
+    {{#if discount}}
+    <div class="mdl-card__title-text article-discount-background"></div>
+    <div class="mdl-card__title-text article-discount">{{discount}}%</div>
+    {{/if}}
   </div>
   <div class="mdl-card__supporting-text article-description">
     <span class="description">{{description}}</span>

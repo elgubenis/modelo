@@ -6,7 +6,7 @@ module.exports = function(router){
 
   router.route('/trigger').post((req, res) => {
     const body = req.body;
-    const user = req.query.user;
+    const order = req.query.order;
     const code = shortid.generate();
     Discounts.create({
       shortId: code,
