@@ -157,14 +157,16 @@ Backbone.history.start({
 const userChannel = Backbone.Radio.channel('user');
 
 userChannel.on('joined', () => {
-  console.log(pushcrew.subscriberId);
+  alert(JSON.stringify(pushcrew));
 });
 
 (function(p,u,s,h){
     p._pcq=p._pcq||[];
     p._pcq.push(['_currentTime',Date.now()]);
     p._pcq.push(['APIReady', () => {
-      alert('1');
+      userChannel.trigger('joined');
+    }, (values) => {
+      alert(JSON.stringify(values));
     }]);
     s=u.createElement('script');
     s.type='text/javascript';
