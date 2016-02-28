@@ -34,7 +34,7 @@ const layoutTemplate = `
 </div>`;
 
 const Articles = Backbone.Collection.extend({
-  url: 'http://model.mobi:1337/articles'
+  url: 'http://localhost:1337/articles'
 });
 
 const LayoutView = Marionette.LayoutView.extend({
@@ -73,7 +73,7 @@ const layout = new LayoutView();
 layout.render();
 
 const User = Backbone.Model.extend({
-  urlRoot: 'http://model.mobi:1337/users',
+  urlRoot: 'http://localhost:1337/users',
   idAttribute: '_id',
 });
 
