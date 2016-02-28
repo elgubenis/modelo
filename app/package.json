@@ -19,6 +19,8 @@
     "@modelo/drawer": "^1.0.0",
     "@modelo/events": "^1.0.2",
     "@modelo/form": "^1.0.1",
+    "@modelo/history": "^1.0.0",
+    "@modelo/mililiters": "^1.0.1",
     "@modelo/search": "^1.0.0",
     "@modelo/show-total": "^1.0.0",
     "@modelo/ticket": "^1.0.0",

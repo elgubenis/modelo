@@ -226,7 +226,12 @@ const Router = Marionette.AppRouter.extend({
       layout.getRegion('cart').show(buttonView);
     },
     orders() {
-
+      const Orders = Backbone.Collection.extend({
+        url: `http://www.modelo.mobi:1337/users/${user.get('_id')}/orders`
+      });
+      const collection = new Orders();
+      collection.fetch();
+      layout.getRegion('content').show(new Marionette.HistoryList({ collection }));
     },
     events() {
       layout.getRegion('cart').empty();
@@ -249,7 +254,8 @@ const Router = Marionette.AppRouter.extend({
       var awards = new Marionette.Awards({
         collection: awardsList
       });
-      layout.getRegion('content').empty();
+      var mililiters = new Marionette.Modelo.Mililiters({ full: true, success: 'Boletos de F1', fail: 'Sigue acumulando puntos' });
+      layout.getRegion('content').show(mililiters);
       layout.getRegion('footer').show(awards);
     },
     confirmation() {
@@ -285,6 +291,7 @@ const Router = Marionette.AppRouter.extend({
           }
           var order = new Order(opts);
           order.save().done(() => {
+            layout.getRegion('time').empty();
             self.lastOrderNo = order.get('order_no');
             Backbone.history.navigate('/confirmation', true);
           })

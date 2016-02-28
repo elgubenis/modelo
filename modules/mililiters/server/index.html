@@ -6,17 +6,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/material-design-lite/material.min.css" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<meta property="og:url"                content="http://modelo.mobi" />
-<meta property="og:type"               content="article" />
-<meta property="og:title"              content="Sigue juntando puntos con Modelo Now" />
-<meta property="og:description"        content="Acabo de juntar puntos!" />
-<meta property="og:image"              content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />
   </head>
   <body>
-
     <!-- Mocha layout -->
     <div id="module"></div>
 
@@ -26,11 +17,11 @@
     <script src="/handlebars/dist/handlebars.runtime.min.js"></script>
     <script src="/backbone/backbone.js"></script>
     <script src="/backbone.marionette/lib/backbone.marionette.js"></script>
-    <script src="/material-design-lite/material.js"></script>
 
     <!-- Module -->
     <script src="/src/index.js"></script>
     <script>
+
       const LayoutView = Marionette.LayoutView.extend({
         template: false,
         el: 'body',
@@ -41,9 +32,9 @@
           this.render();
         },
       });
-      const confirmationView = new Marionette.Modelo.ConfirmationView({code: 'http://modelo.mobi/yy3456'});
+      const mlView = new Marionette.Modelo.Mililiters({full: true, success: 'Boletos de F1', fail: 'Sigue acumulando puntos'});
       const layout = new LayoutView();
-      layout.getRegion('preview').show(confirmationView);
+      layout.getRegion('preview').show(mlView);
     </script>
   </body>
 </html>

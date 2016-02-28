@@ -6,17 +6,11 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/material-design-lite/material.min.css" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<meta property="og:url"                content="http://modelo.mobi" />
-<meta property="og:type"               content="article" />
-<meta property="og:title"              content="Sigue juntando puntos con Modelo Now" />
-<meta property="og:description"        content="Acabo de juntar puntos!" />
-<meta property="og:image"              content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
   </head>
   <body>
-
     <!-- Mocha layout -->
     <div id="module"></div>
 
@@ -41,9 +35,30 @@
           this.render();
         },
       });
-      const confirmationView = new Marionette.Modelo.ConfirmationView({code: 'http://modelo.mobi/yy3456'});
+
       const layout = new LayoutView();
-      layout.getRegion('preview').show(confirmationView);
+      historyList = [
+        {
+          createdAt: '2016-02-28T13:47:04.491Z',
+          total: 120,
+          order_no: 1
+        },
+        {
+          createdAt: '2016-02-28T13:47:04.491Z',
+          total: 150,
+          order_no: 2
+        },
+        {
+          createdAt: '2016-02-28T13:47:04.491Z',
+          total: 190,
+          order_no: 3
+        }
+      ];
+      const collection = new Backbone.Collection(historyList);
+      const historyListView = new Marionette.HistoryList({
+        collection: collection
+      });
+      layout.getRegion('preview').show(historyListView);
     </script>
   </body>
 </html>
