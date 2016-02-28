@@ -20,3 +20,22 @@ body {
 h3 {
   text-align: center;
 }
+
+.mdl-layout__drawer-button {
+  display: none;
+}
+
+.drawer-img-circle {
+  width: 50px !important;
+  max-height: 128px !important;
+  text-align: center;
+}
+
+.drawer-user-profile {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.mdl-card__supporting-text {
+  width: initial;
+}
