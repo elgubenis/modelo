@@ -1,5 +1,9 @@
 'use strict';
 
+if (document.location.pathname != '/') {
+  document.location.href = '/';
+}
+
 const layoutTemplate = `
 <style>
 .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
@@ -181,10 +185,6 @@ const Router = Marionette.AppRouter.extend({
     }
   }
 });
-
-if (document.location.pathname != '/') {
-  document.location.href = '/';
-}
 
 new Router();
 
