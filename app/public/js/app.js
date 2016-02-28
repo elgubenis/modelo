@@ -11,8 +11,7 @@ const layoutTemplate = `
 }
 #toast.active {
   z-index: 100;
-  background-color: white;
-  opacity: 0.5;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 #toast.active span{
   opacity: 1!important;
