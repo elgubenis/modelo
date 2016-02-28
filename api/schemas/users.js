@@ -18,9 +18,7 @@ var user = new Schema({
     index: '2d'
   },
   orders: [],
-  liters: {
-    type: Number
-  }
+  awards: {}
 });
 
 user.plugin(timestamps);
