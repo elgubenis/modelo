@@ -3,27 +3,38 @@ const layoutTemplate = `
 .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
   padding-right: 0;
 }
+#toast {
+  position:absolute;
+  top: 40%;
+  width: 100%;
+  height: 80px;
+}
+#toast.active {
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+#toast.active span{
+  opacity: 1!important;
+}
+.show-total span {
+  font-size: 70px;
+}
 </style>
 
 <div class="demo-layout-waterfall mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header" id="header">
-    <!-- <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Pedido</span>
-    </div> -->
   </header>
   <div class="mdl-layout__drawer" id="drawer">
-    <!-- <span class="mdl-layout-title">ModeloNow</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">A</a>
-      <a class="mdl-navigation__link" href="">B</a>
-      <a class="mdl-navigation__link" href="">C</a>
-      <a class="mdl-navigation__link" href="">D</a>
-    </nav> -->
   </div>
   <main class="mdl-layout__content">
     <div class="page-content" id="content"></div>
   </main>
+  <div id="toast"> </div>
 </div>`;
+
+const Articles = Backbone.Collection.extend({
+  url: 'http://modelo.mobi:1337/articles'
+});
 
 const LayoutView = Marionette.LayoutView.extend({
   el: 'main',
@@ -31,26 +42,28 @@ const LayoutView = Marionette.LayoutView.extend({
   regions: {
     header: '#header',
     drawer: '#drawer',
-    content: '#content'
+    content: '#content',
+    toast: '#toast'
   },
   onRender() {
-    // this.getRegion('content').show(new Marionette.Form({
-    //   text: '',
-    //   buttons: [
-    //     {
-    //       label: 'SI',
-    //       onClick: function() {
-    //         alert('SI');
-    //       }
-    //     },
-    //     {
-    //       label: 'NO',
-    //       onClick: function() {
-    //         alert('NO');
-    //       }
-    //     }
-    //   ]
-    // }));
+    this.getRegion('content').show(new Marionette.Form({
+      text: 'Eres mayor de edad?',
+      buttons: [
+        {
+          label: 'SI',
+          onClick: function() {
+            $('.mdl-layout__drawer-button').css({ display: 'initial' });
+            Backbone.history.navigate('/order', true);
+          }
+        },
+        {
+          label: 'NO',
+          onClick: function() {
+            document.location.href = 'http://www.google.com';
+          }
+        }
+      ]
+    }));
   }
 });
 
@@ -61,22 +74,23 @@ layout.render();
 
 layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
   menu: [{
-    label: 'Pedir ahora',
+    label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
     href: '/order'
   }, {
-    label: 'Historial de pedidos',
+    label: '<i class="fa fa-history"></i>&nbsp; Historial de pedidos',
     href: '/orders'
   }, {
-    label: 'Mi Perfil',
+    label: '<i class="fa fa-user"></i>&nbsp; Mi Perfil',
     href: '/profile'
   }, {
-    label: 'Eventos',
+    label: '<i class="fa fa-music"></i>&nbsp; Eventos',
     href: '/events'
   }],
   user: new Backbone.Model({ name: 'Barney', lastName: 'Gumble', image: 'http://assets.fxnetworks.com/shows/the-simpsons/photos/swsb_character_fact_barney_550x960.png' })
 }));
 //layout.getRegion('header').show(new Marionette.form());
 
+const articles = new Articles();
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -86,7 +100,13 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     order() {
-
+      var self = this;
+      this._showTotal = _.debounce(this._showTotal.bind(this), 500);
+      this._closeTotal = _.debounce(this._closeTotal, 1600);
+      articles.fetch().done(function(){
+        articles.listenTo(articles, 'change', self._showTotal);
+      });
+      layout.getRegion('content').show(new Marionette.ArticleList({ collection: articles }))
     },
     orders() {
 
@@ -97,11 +117,34 @@ const Router = Marionette.AppRouter.extend({
     profile() {
 
     },
+    _showTotal: function() {
+      var total = 0;
+      articles.each(function(article){
+        total+= parseFloat(article.get('currentPrice'));
+      });
+      total = total.toFixed(2);
+      var showTotal = new Marionette.ShowTotal({
+        total: total
+      });
+      layout.getRegion('toast').show(showTotal);
+      $('#toast').addClass('active');
+      this._closeTotal();
+    },
+    _closeTotal: function() {
+      console.log('close total')
+      $('#toast').removeClass('active');
+    }
   },
   onRoute: function () {
-    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+    if (document.body.querySelector('.mdl-layout__obfuscator.is-visible')) {
+      document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+    }
   }
 });
+
+if (document.location.pathname != '/') {
+  document.location.href = '/';
+}
 
 new Router();
 
@@ -109,3 +152,6 @@ Backbone.Intercept.start();
 Backbone.history.start({
   pushState: true
 });
+
+const userChannel = Backbone.Radio.channel('user');
+

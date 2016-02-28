@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@modelo/article-list": "^1.0.0",
     "@modelo/drawer": "^1.0.0",
     "@modelo/form": "^1.0.1",
+    "@modelo/show-total": "^1.0.0",
     "backbone": "^1.2.3",
     "backbone.intercept": "^0.4.2",
     "backbone.marionette": "^2.4.4",
@@ -19,6 +21,7 @@
     "corser": "^2.0.0",
     "express": "^4.13.4",
     "express-history-api-fallback": "^2.0.0",
+    "font-awesome": "^4.5.0",
     "handlebars": "^4.0.5",
     "jquery": "^2.2.1",
     "material-design-lite": "^1.1.1",

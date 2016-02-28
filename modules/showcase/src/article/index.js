@@ -25,7 +25,6 @@ var Article = Marionette.ItemView.extend({
   	this.$el.find('.article-quantity').val(this.model.get('quantity'));
   },
   addArticle: function() {
-  	console.log('add article')
   	var currentQuantity = this.model.get('quantity');
   	currentQuantity++;
   	this.model.set('quantity', currentQuantity);

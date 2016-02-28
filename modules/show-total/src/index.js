@@ -15,10 +15,10 @@ Marionette.ShowTotal = Marionette.ItemView.extend({
 		setTimeout(function(){
 			self.$el
 			.addClass('fadeOut');
-		}, 1000);
+		}, 1100);
 		setTimeout(function(){
 			self.destroy();
-		}, 1500);
+		}, 1600);
 	}
 
 });
