@@ -5,12 +5,17 @@ const layoutTemplate = `
 }
 #toast {
   position:absolute;
-  top: 0px;
+  top: 40%;
   width: 100%;
-  height: 100%;
+  height: 80px;
 }
 #toast.active {
   z-index: 100;
+  background-color: white;
+  opacity: 0.5;
+}
+#toast.active span{
+  opacity: 1!important;
 }
 .show-total span {
   font-size: 70px;
@@ -97,7 +102,8 @@ const Router = Marionette.AppRouter.extend({
   controller: {
     order() {
       var self = this;
-      this._showTotal = _.debounce(this._showTotal, 500);
+      this._showTotal = _.debounce(this._showTotal.bind(this), 500);
+      this._closeTotal = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
         articles.listenTo(articles, 'change', self._showTotal);
       });
@@ -123,9 +129,11 @@ const Router = Marionette.AppRouter.extend({
       });
       layout.getRegion('toast').show(showTotal);
       $('#toast').addClass('active');
-      setTimeout(function(){
-        $('#toast').removeClass('active');
-      }, 1600);
+      this._closeTotal();
+    },
+    _closeTotal: function() {
+      console.log('close total')
+      $('#toast').removeClass('active');
     }
   },
   onRoute: function () {
