@@ -1,10 +1,17 @@
 const request = require('request');
+const Discounts = require('../schemas/discounts');
+const shortid = require('shortid');
 
 module.exports = function(router){
 
   router.route('/trigger').post((req, res) => {
     const body = req.body;
     const user = req.query.user;
+    const code = shortid.generate();
+    Discounts.create({
+      shortId: code,
+      discount: 5
+    });
     const options = {
       url: 'http://api.pushengage.com/apiv1/notifications',
       headers: {
@@ -14,7 +21,7 @@ module.exports = function(router){
       formData: {
         notification_title: 'Pide Chelas con descuento, solo ahora.',
         notification_message: 'Cerca de ti ya estan celebrando, unete ahora y ahorra.',
-        notification_url: 'http://www.modelo.mobi:8081/code/xuyxjxjx',
+        notification_url: `http://www.modelo.mobi:8081/code/${code}`,
       }
     };
     request.post(options, (err, httpResponse, body) => {

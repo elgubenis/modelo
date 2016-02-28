@@ -1,6 +1,6 @@
 'use strict';
 
-if (document.location.pathname != '/') {
+if (document.location.pathname != '/' && document.location.pathname.indexOf('code') === -1) {
   document.location.href = '/';
 }
 
@@ -159,6 +159,11 @@ const Events = Backbone.Collection.extend({
   }
 });
 
+const Promotion = Backbone.Model.extend({
+  urlRoot: 'http://localhost:1337/discounts/',
+  idAttribute: 'shortid'
+});
+
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -172,7 +177,11 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     code(_id) {
-      alert(_id);
+      const promotion = new Promotion({ shortid: _id });
+      promotion.fetch().then(() => {
+        articles.discount = promotion.get('discount');
+        articles.start = new Date();
+      });
     },
     order() {
       layout.getRegion('footer').empty();

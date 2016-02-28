@@ -11,7 +11,7 @@ var discount = new Schema({
   },
   discount: {
     type: Number
-  },
+  }
 });
 
 discount.plugin(timestamps);
