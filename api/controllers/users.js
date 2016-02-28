@@ -17,7 +17,7 @@ module.exports = function(router){
     Users.findById(req.params._id)
     .select('name lastName image')
     .then(function(result){
-      res.send(result.events);
+      res.send(result);
     })
     .catch(function(err){
       res.status(500).send(err);
@@ -37,7 +37,7 @@ module.exports = function(router){
 
   router.route('/users/:_id/awards').get(function(req, res){
     Users.findById(req.params._id)
-    .select('awards')
+    .select('awards mm')
     .lean()
     .then(function(result){
       result.awards.map(function(award){
@@ -47,7 +47,7 @@ module.exports = function(router){
           return award
         }
       });
-      res.send(result.awards);
+      res.send(result);
     })
     .catch(function(err){
       res.status(500).send(err);

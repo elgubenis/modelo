@@ -35,7 +35,11 @@ var user = new Schema({
       type: Boolean
     }
   }],
-  events: []
+  events: [],
+  mm:{
+    type: Number,
+    default: 0
+  }
 });
 
 user.plugin(timestamps);
