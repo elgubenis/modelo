@@ -7,3 +7,16 @@ body {
 .mdl-layout__drawer {
   border-right: 0px;
 }
+
+.article-description, .article-footer {
+  background: #FFF;
+}
+
+.article-quantity {
+  border: 0px;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}

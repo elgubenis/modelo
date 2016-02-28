@@ -3,6 +3,18 @@ const layoutTemplate = `
 .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
   padding-right: 0;
 }
+#toast {
+  position:absolute;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
+#toast.active {
+  z-index: 100;
+}
+.show-total span {
+  font-size: 70px;
+}
 </style>
 
 <div class="demo-layout-waterfall mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -23,7 +35,12 @@ const layoutTemplate = `
   <main class="mdl-layout__content">
     <div class="page-content" id="content"></div>
   </main>
+  <div id="toast"> </div>
 </div>`;
+
+const Articles = Backbone.Collection.extend({
+  url: 'http://modelo.mobi:1337/articles'
+});
 
 const LayoutView = Marionette.LayoutView.extend({
   el: 'main',
@@ -31,26 +48,27 @@ const LayoutView = Marionette.LayoutView.extend({
   regions: {
     header: '#header',
     drawer: '#drawer',
-    content: '#content'
+    content: '#content',
+    toast: '#toast'
   },
   onRender() {
-    // this.getRegion('content').show(new Marionette.Form({
-    //   text: '',
-    //   buttons: [
-    //     {
-    //       label: 'SI',
-    //       onClick: function() {
-    //         alert('SI');
-    //       }
-    //     },
-    //     {
-    //       label: 'NO',
-    //       onClick: function() {
-    //         alert('NO');
-    //       }
-    //     }
-    //   ]
-    // }));
+    this.getRegion('content').show(new Marionette.Form({
+      text: 'Eres mayor de edad?',
+      buttons: [
+        {
+          label: 'SI',
+          onClick: function() {
+            Backbone.history.navigate('/order', true);
+          }
+        },
+        {
+          label: 'NO',
+          onClick: function() {
+            document.location.href = 'http://www.google.com';
+          }
+        }
+      ]
+    }));
   }
 });
 
@@ -77,6 +95,7 @@ layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
 }));
 //layout.getRegion('header').show(new Marionette.form());
 
+const articles = new Articles();
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -86,7 +105,12 @@ const Router = Marionette.AppRouter.extend({
   },
   controller: {
     order() {
-
+      var self = this;
+      this._showTotal = _.debounce(this._showTotal, 500);
+      articles.fetch().done(function(){
+        articles.listenTo(articles, 'change', self._showTotal);
+      });
+      layout.getRegion('content').show(new Marionette.ArticleList({ collection: articles }))
     },
     orders() {
 
@@ -97,11 +121,32 @@ const Router = Marionette.AppRouter.extend({
     profile() {
 
     },
+    _showTotal: function() {
+      var total = 0;
+      articles.each(function(article){
+        total+= parseFloat(article.get('currentPrice'));
+      });
+      total = total.toFixed(2);
+      var showTotal = new Marionette.ShowTotal({
+        total: total
+      });
+      layout.getRegion('toast').show(showTotal);
+      $('#toast').addClass('active');
+      setTimeout(function(){
+        $('#toast').removeClass('active');
+      }, 1600);
+    }
   },
   onRoute: function () {
-    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+    if (document.body.querySelector('.mdl-layout__obfuscator.is-visible')) {
+      document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+    }
   }
 });
+
+if (document.location.pathname != '/') {
+  document.location.href = '/';
+}
 
 new Router();
 
@@ -109,3 +154,23 @@ Backbone.Intercept.start();
 Backbone.history.start({
   pushState: true
 });
+
+const userChannel = Backbone.Radio.channel('user');
+
+userChannel.on('joined', () => {
+  console.log(pushcrew.subscriberId);
+});
+
+(function(p,u,s,h){
+    p._pcq=p._pcq||[];
+    p._pcq.push(['_currentTime',Date.now()]);
+    p._pcq.push(['APIReady', userChannel.trigger.bind({}, 'joined')]);
+    s=u.createElement('script');
+    s.type='text/javascript';
+    s.async=true;
+    s.src='https://cdn.pushcrew.com/js/7a8474c7728d7f23e99c77939824f57e.js';
+    h=u.getElementsByTagName('script')[0];
+    h.parentNode.insertBefore(s,h);
+})(window,document);
+
+document.body.requestFullscreen();
