@@ -10,7 +10,4 @@ node_modules
 # the build of the source which is used to create test coverage
 build
 
-# the source code
-src
-
 package.json-e
