@@ -152,6 +152,13 @@ const Awards = Backbone.Collection.extend({
     return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
   }
 });
+
+const Events = Backbone.Collection.extend({
+  url: function(){
+    return 'http://localhost:1337/users/'+user.get('_id')+'/events';
+  }
+});
+
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -190,7 +197,15 @@ const Router = Marionette.AppRouter.extend({
 
     },
     events() {
-
+      layout.getRegion('cart').empty();
+      layout.getRegion('footer').empty();
+      layout.getRegion('toast').empty();
+      var eventsList = new Events();
+      eventsList.fetch()
+      var events = new Marionette.EventsList({
+        collection: eventsList
+      })
+      layout.getRegion('content').show(events)
     },
     profile() {
 
