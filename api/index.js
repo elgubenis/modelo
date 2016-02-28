@@ -26,6 +26,7 @@ app.use(router)
 var articles = require('./controllers/articles')(router);
 var orders   = require('./controllers/orders')(router);
 var users   = require('./controllers/users')(router);
+require('./controllers/trigger')(router);
 // listen server
 var server = app.listen(app.get('port'), function(err){
   if(!err){
