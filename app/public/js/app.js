@@ -201,9 +201,9 @@ const Router = Marionette.AppRouter.extend({
     order() {
       layout.getRegion('footer').empty();
       var self = this;
-      if (articles.discount) {
-        layout.getRegion('time').show(new Marionette.Countdown({ duration: articles.duration }));
-      }
+
+      layout.getRegion('time').show(new Marionette.Countdown({ duration: 30 }));
+
       this.articles = articles;
       this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
