@@ -1,0 +1,46 @@
+.event-header {
+	height: 176px;
+  position: relative;
+  color: white!important;
+}
+
+.event-description {
+  font-size: 1.2rem!important;
+}
+
+.event-discount {
+  position: absolute;
+  bottom: 1px;
+  right: 0px;
+  font-size: 20px!important;
+}
+
+.event-discount-background {
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    left: 56px;
+    top: 32px;
+}
+
+.event-discount-background::before,
+.event-discount-background::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.event-discount-background::before {
+    border-width: 30px;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.event-discount-background::after {
+    border-width: 30px;
+    border-right-color: red;
+    border-bottom-color: red;
+}

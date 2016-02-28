@@ -4,6 +4,7 @@ module.exports = function(router){
 
   router.route('/trigger').post((req, res) => {
     const body = req.body;
+    const user = req.query.user;
     const options = {
       url: 'http://api.pushengage.com/apiv1/notifications',
       headers: {
@@ -11,14 +12,13 @@ module.exports = function(router){
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       formData: {
-        notification_title: body.title,
-        notification_message: body.message,
-        notification_url: body.url,
+        notification_title: 'Pide Chelas con descuento, solo ahora.',
+        notification_message: 'Cerca de ti ya estan celebrando, unete ahora y ahorra.',
+        notification_url: 'URL',
       }
     };
     request.post(options, (err, httpResponse, body) => {
       if (err) return res.send(err);
-      console.log(body);
       res.send(body);
     });
   });
