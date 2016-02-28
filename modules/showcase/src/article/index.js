@@ -16,6 +16,10 @@ var Article = Marionette.ItemView.extend({
   setPrice: function() {
   	var quantity = this.model.get('quantity');
   	var price = this.model.get('price');
+    var discount = this.model.collection.discount;
+    if (discount!==null && discount!==undefined) {
+      price -= (price*discount)/100;
+    }
   	var currentPrice = (price * quantity).toFixed(2);
   	this.model.set('currentPrice', currentPrice);
   },

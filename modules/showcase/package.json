@@ -1,6 +1,6 @@
 {
   "name": "@modelo/article-list",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "bundled and tested es6 module development and distribution boilerplate for the web/html/browser",
   "main": "server/src/index.js",
   "scripts": {
