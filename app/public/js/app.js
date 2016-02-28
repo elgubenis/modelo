@@ -26,6 +26,11 @@ const layoutTemplate = `
 .show-total span {
   font-size: 50px;
 }
+
+#footer {
+  max-height: 200px;
+  background-color:rgba(255, 255, 255, 0.7);
+}
 </style>
 
 <div class="demo-layout-waterfall mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -147,6 +152,13 @@ const Awards = Backbone.Collection.extend({
     return 'http://localhost:1337/users/'+user.get('_id')+'/awards';
   }
 });
+
+const Events = Backbone.Collection.extend({
+  url: function(){
+    return 'http://localhost:1337/users/'+user.get('_id')+'/events';
+  }
+});
+
 const Router = Marionette.AppRouter.extend({
   appRoutes: {
     'order': 'order',
@@ -162,6 +174,7 @@ const Router = Marionette.AppRouter.extend({
       layout.getRegion('footer').empty();
       var self = this;
       this.articles = articles;
+      this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       this._showTotalDebounce = _.debounce(this._showTotal.bind(this), 500);
       this._closeTotalDebounce = _.debounce(this._closeTotal, 1600);
       articles.fetch().done(function(){
@@ -185,12 +198,21 @@ const Router = Marionette.AppRouter.extend({
 
     },
     events() {
-
+      layout.getRegion('cart').empty();
+      layout.getRegion('footer').empty();
+      layout.getRegion('toast').empty();
+      var eventsList = new Events();
+      eventsList.fetch()
+      var events = new Marionette.EventsList({
+        collection: eventsList
+      })
+      layout.getRegion('content').show(events)
     },
     profile() {
 
     },
     achievments() {
+      layout.getRegion('cart').empty();
       var awardsList = new Awards();
       awardsList.fetch();
       var awards = new Marionette.Awards({
@@ -206,12 +228,17 @@ const Router = Marionette.AppRouter.extend({
     },
     ticket() {
       var self = this;
-      layout.getRegion('content').empty();
+      this.articles.stopListening(this.articles, 'change', this._showTotalDebounce);
       layout.getRegion('cart').empty();
+      layout.getRegion('cart').empty();
+      var ticketView = new Marionette.Ticket({
+        collection: this.articles
+      });
+      layout.getRegion('content').show(ticketView);
       var directionView = new Marionette.DirectionView({
         model: new Backbone.Model(),
         onClick() {
-          order = new Order({
+          var order = new Order({
             articles: self.articles.toJSON(),
             userId: user.get('_id'),
             direction: this.model.get('direction')

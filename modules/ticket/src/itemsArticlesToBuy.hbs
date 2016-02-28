@@ -1,0 +1,25 @@
+<li class="mdl-list__item mdl-list__item">
+    <span class="mdl-list__item-primary-content article-quantity-toBuy" style="">
+
+          <button act="rem-ticket" class="ticket-buttons mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab ">
+            <i class="material-icons">remove</i>
+          </button>
+
+            <input min="0" type="number" class="mdl-textfield__input ticket-input" value="{{quantity}}">
+          
+          <button act="add-ticket" class="ticket-buttons mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--mini-fab ">
+            <i class="material-icons">add</i>
+          </button>
+
+    </span>
+    <span class="mdl-list__item-primary-content article-quantity-toBuy" style="">
+      <span style="">{{name}}</span>
+    </span>
+    <span class="mdl-list__item-primary-content article-ticket-unit" style=""> 
+      <span class="ticket-unit-price">${{price}}</span>
+    </span>
+
+    <span class="mdl-list__item-primary-content ticket-total-unit" style=""><span class="ticket-total-uni">${{total}}</span>
+      
+    </span>
+  </li>

@@ -8,8 +8,8 @@ body {
   border-right: 0px;
 }
 
-.article-description, .article-footer {
-  background: #FFF;
+.demo-card-wide {
+  background-color: #FFF;
 }
 
 .article-quantity {
@@ -45,6 +45,12 @@ background: -webkit-linear-gradient(-45deg,  rgba(135,224,253,1) 0%,rgba(83,203,
 background: linear-gradient(135deg,  rgba(135,224,253,1) 0%,rgba(83,203,241,1) 40%,rgba(5,171,224,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
+}
+
+.article-header .mdl-card__title-text {
+  background-color: rgba(255,255,255,0.7);
+  padding: 0px 5px;
+  border-radius: 3px;
 }
 
 .mdl-card__supporting-text {

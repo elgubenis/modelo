@@ -6,9 +6,10 @@
 */
 
 $(document).ready(function() {
-	$('.mdl-speed-dial__main-fab').mouseenter(openFAB);
-	$('.mdl-speed-dial').mouseleave(closeFAB);
-	$('.mdl-speed-dial__option').hover(showFABTooltip, hideFABTooltip);
+	$('.mdl-speed-dial__main-fab').on('mouseenter', openFAB);
+	$('.mdl-speed-dial').on('mouseleave', closeFAB);
+	$('.mdl-speed-dial__option').on('hover', showFABTooltip, hideFABTooltip);
+
 	$('.mdl-speed-dial__tooltip--hidden').hide();
 	$('.mdl-speed-dial_main-fab-icon--secondary').hide();
 });
@@ -23,7 +24,7 @@ function rotateElement(el, deg, duration) {
 }
 
 function openFAB(e) {
-	console.log('open fab');
+	console.log('hola');
 	var $btn = $(this),
 		$speedDialOptions = $btn.siblings('.mdl-speed-dial__options'),
 		isSpeedDialOptionsHidden = $speedDialOptions.css('display') == 'none' ? true : false,
@@ -45,7 +46,7 @@ function openFAB(e) {
 				rotationDegrees = 45;
 				rotationSpeed = 100;
 			}
-			
+
 			rotateElement($btn, rotationDegrees, rotationSpeed);
 
 			if (!isPrimaryIconNull && !isSecondaryIconNull) {
