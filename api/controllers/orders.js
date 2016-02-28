@@ -12,8 +12,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/orders').post(function(req, res){
@@ -44,7 +42,7 @@ module.exports = function(router){
 
       Orders.create(order)
       .then(function(result){
-        Users.findByIdAndUpdate(order.userId, { 
+        Users.findByIdAndUpdate(order.userId, {
           $push: {
             'orders': result
           }
@@ -56,8 +54,6 @@ module.exports = function(router){
         res.status(500).send(err);
       });
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/orders/:_id').put(function(req, res){
@@ -68,8 +64,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/orders/:_id').delete(function(req, res){
@@ -80,8 +74,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
 }

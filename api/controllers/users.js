@@ -11,8 +11,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/users/:_id').get(function(req, res){
@@ -24,8 +22,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     })
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/users').post(function(req, res){
@@ -36,8 +32,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/users/:_id').put(function(req, res){
@@ -48,8 +42,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
   router.route('/users/:_id').delete(function(req, res){
@@ -60,8 +52,6 @@ module.exports = function(router){
     .catch(function(err){
       res.status(500).send(err);
     });
-  }).options(function(req, res){
-    res.status(200)
   });
 
 }
