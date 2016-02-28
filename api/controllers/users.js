@@ -41,7 +41,7 @@ module.exports = function(router){
     .lean()
     .then(function(result){
       result.awards.map(function(award){
-        if(award.icon.indexOf('fa') != -1){
+        if(award.icon && award.icon.indexOf('fa') != -1){
           award.iconClass = award.icon
           delete award.icon
           return award
@@ -68,7 +68,7 @@ module.exports = function(router){
 
   router.route('/users/:_id/orders').get(function(req, res){
     Users.findById(req.params._id)
-    .select('orders')
+    .select('orders.createdAt orders.total')
     .then(function(result){
       res.send(result.orders);
     })
