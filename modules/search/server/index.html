@@ -7,9 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/src/style.css" />
     <link rel="stylesheet" href="/material-design-lite/material.min.css" />
-
+   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   </head>
   <body>
+    <!-- The drawer is always open in large screens. The header is always shown,
+      even in small screens. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+                mdl-layout--fixed-header">
+    <header class="mdl-layout__header" id="module">
+      
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Title</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <!-- Your content goes here -->
+      </div>
+    </main>
+  </div>
     <!-- Mocha layout -->
     <div id="module"></div>
 
@@ -20,7 +42,7 @@
     <script src="/backbone/backbone.js"></script>
     <script src="/backbone.marionette/lib/backbone.marionette.js"></script>
     <script src="/material-design-lite/material.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.radio/1.0.2/backbone.radio.js" ></script>
     <!-- Module -->
     <script src="/src/index.js"></script>
     <script>
@@ -34,14 +56,34 @@
           this.render();
         },
       });
-      var myObject={
-        checkCall: function(){
-          console.log('some message from callback');
+      var articleList = [
+        {
+          name: 'Corona',
+          description: '4.9%',
+          price: 2.05,
+          stars: 4.9,
+          quantity: 0,
+          image: 'http://vignette4.wikia.nocookie.net/beer/images/6/6b/Corona.jpg/revision/latest?cb=20130322234121'
+        },
+        {
+          name: 'Victoria',
+          description: '4.9%',
+          price: 2.05,
+          stars: 4.5,
+          quantity: 0,
+          image: 'http://www.tragos-tragos.com/wp-content/uploads/2012/09/cerveza-victoria.jpg'
         }
+      ];
+
+      var myObject={
+        collection: new Backbone.Collection(articleList)
       };
-      const directionView = new Marionette.form(myObject);
+
+      const directionView = new Marionette.Search(myObject);
       const layout = new LayoutView();
       layout.getRegion('preview').show(directionView);
+       const channel = Backbone.Radio.channel('header');
+      channel.trigger('title', 'Pedidos');
     </script>
   </body>
 </html>
