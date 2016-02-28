@@ -25,6 +25,7 @@ app.use(router)
 // == endpoints ==
 var articles = require('./controllers/articles')(router);
 var orders   = require('./controllers/orders')(router);
+var users   = require('./controllers/users')(router);
 // listen server
 var server = app.listen(app.get('port'), function(err){
   if(!err){
