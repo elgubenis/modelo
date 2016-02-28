@@ -81,7 +81,31 @@ Marionette.Ticket = Marionette.CompositeView.extend({
       
     })
     this.collection.totalTicket = (totalTicket).toFixed(2);
+    console.log(this.collection.totalTicket);
     var stringTot = 'TOTAL: $ '+this.collection.totalTicket;
     $('.ticket-total-ticket').text(stringTot);
+    if(this.collection.discount){
+      console.log('hay descuento');
+      this.applyDiscount(this.collection);
+    }
+  },
+  onShow: function(){
+  },
+  applyDiscount: function(collection){
+    $('.ticket-discount').removeClass('hidden');
+    $('.ticket-discount-line').removeClass('hidden');
+    $('.ticket-real-price').removeClass('hidden');
+
+    var descuento =(this.collection.totalTicket*(('.'+collection.discount))).toFixed(2);
+    console.log(descuento); 
+    $('.ticket-discount').text(' Descuento -'+collection.discount+' %');
+    console.log(this.collection.totalTicket - descuento);
+    var desc = this.collection.totalTicket - descuento;
+    $('.ticket-real-price').text('TOTAL: $'+desc.toFixed(2));
+    $('.ticket-total-ticket').text('$'+this.collection.totalTicket)
+    $('.ticket-real-price').addClass('ticket-label-new');
+
+
+    
   }
 });

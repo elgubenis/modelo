@@ -47,7 +47,7 @@ module.exports = function(router){
         total: total,
         articles: articles
       }
-      return res.send(order)
+
       Orders.create(order)
       .then(function(result){
         Users.findByIdAndUpdate(order.userId, {

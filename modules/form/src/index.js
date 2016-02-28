@@ -16,7 +16,7 @@ var child = Marionette.ItemView.extend({
 
 Marionette.Form = Marionette.CompositeView.extend({
   template: require('./template.hbs'),
-  className: 'form-message-container',
+  className: 'form-message-container mdl-card mdl-shadow--2dp',
   childView: child,
   childViewContainer: '.form-message-container-check',
   onShow(){
