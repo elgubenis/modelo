@@ -9,7 +9,7 @@ var user = new Schema({
     type: String,
     required: true
   },
-  fullName: {
+  lastName: {
     type: String
   },
   email: {
