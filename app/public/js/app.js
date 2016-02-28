@@ -77,8 +77,9 @@ const User = Backbone.Model.extend({
   idAttribute: '_id',
 });
 
-const user = new User({ _id: '56d28ac18047e98039b1aa3e' });
+const user = new User({ _id: '56d28dabb23bf0423c8e12a9' });
 user.fetch().then(() => {
+  _pe.subscribe(user.get('_id'));
   layout.getRegion('drawer').show(new Marionette.Modelo.DrawerView({
     menu: [{
       label: '<i class="fa fa-cart-arrow-down"></i>&nbsp; Pedir ahora',
@@ -166,6 +167,7 @@ const userChannel = Backbone.Radio.channel('user');
 navigator.geolocation.getCurrentPosition(function(position) {
     var latitude = position.coords.latitude.toFixed(3);
     var longitude = position.coords.longitude.toFixed(3);
-    _pe.subscribe(longitude+','+latitude);
+    user.set('location', [longitude, latitude]);
+    user.save();
 });
 
