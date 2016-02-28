@@ -6,18 +6,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/material-design-lite/material.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
   </head>
   <body>
     <!-- Mocha layout -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-  <header class="mdl-layout__header">
-  </header>
-  <div id='module' class='mdl-layout__drawer'></div>
-
-  </div>
-
+    <div id="module"></div>
 
     <!-- Dependencies -->
     <script src="/jquery/dist/jquery.js"></script>
@@ -30,11 +25,6 @@
     <!-- Module -->
     <script src="/src/index.js"></script>
     <script>
-      const user = new Backbone.Model({
-        name: 'Roberto',
-        lastName: 'Sosa',
-        image: 'http://assets.fxnetworks.com/shows/the-simpsons/photos/swsb_character_fact_barney_550x960.png',
-      })
       const LayoutView = Marionette.LayoutView.extend({
         template: false,
         el: 'body',
@@ -45,16 +35,13 @@
           this.render();
         },
       });
-      const drawerView = new Marionette.Modelo.DrawerView({
-        menu: [
-        { label: 'Usuario', href: 'user' },
-        { label: 'Pedidos', href:'orders' },
-        { label: 'Eventos', href: 'events'},
-        ],
-        user: user,
-      });
+
       const layout = new LayoutView();
-      layout.getRegion('preview').show(drawerView);
+      total = 100
+      const showTotal = new Marionette.ShowTotal({
+        total: total
+      });
+      layout.getRegion('preview').show(showTotal);
     </script>
   </body>
 </html>

@@ -12,6 +12,16 @@ module.exports = function(router){
     });
   });
 
+  router.route('/articles/:_id').get(function(req, res){
+    Articles.findById(req.params._id)
+    .then(function(articles){
+      res.send(articles);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    });
+  });
+
   router.route('/articles').post(function(req, res){
     Articles.create(req.body)
     .then(function(article){

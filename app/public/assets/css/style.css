@@ -1,0 +1,9 @@
+body {
+  background-image: url(/assets/back.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.mdl-layout__drawer {
+  border-right: 0px;
+}
