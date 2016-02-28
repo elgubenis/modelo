@@ -35,6 +35,17 @@ module.exports = function(router){
     })
   });
 
+  router.route('/users/:_id/awards').get(function(req, res){
+    Users.findById(req.params._id)
+    .select('awards')
+    .then(function(result){
+      res.send(result);
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+  });
+
   router.route('/users').post(function(req, res){
     Users.create(req.body)
     .then(function(result){
